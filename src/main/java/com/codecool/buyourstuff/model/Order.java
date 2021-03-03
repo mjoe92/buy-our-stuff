@@ -1,6 +1,8 @@
 package com.codecool.buyourstuff.model;
 
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 public class Order {
 
     private final Cart cart;
@@ -11,6 +13,7 @@ public class Order {
         this.shippingInfo = shippingInfo;
     }
 
+    @Override
     public String toString() {
         return String.format("%1$s={shippingInfo: %2$s, cart: %3$s}",
                 getClass().getSimpleName(),

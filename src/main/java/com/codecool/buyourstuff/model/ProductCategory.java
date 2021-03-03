@@ -1,6 +1,12 @@
 package com.codecool.buyourstuff.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
+@AllArgsConstructor
+@Getter
+@Setter
 public class ProductCategory extends BaseModel {
     private String name;
     private String description;
@@ -12,6 +18,7 @@ public class ProductCategory extends BaseModel {
         this.department = department;
     }
 
+    @Override
     public String toString() {
         return String.format("%1$s={" +
                         "id: %2$d, " +
@@ -29,23 +36,18 @@ public class ProductCategory extends BaseModel {
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
     public String getDescription() {
         return description;
     }
-
     public void setDescription(String description) {
         this.description = description;
     }
-
     public String getDepartment() {
         return department;
     }
-
     public void setDepartment(String department) {
         this.department = department;
     }

@@ -1,9 +1,16 @@
 package com.codecool.buyourstuff.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Currency;
 
+@AllArgsConstructor
+@Getter
+@Setter
 public class Product extends BaseModel {
 
     private String name;
@@ -12,7 +19,6 @@ public class Product extends BaseModel {
     private Currency defaultCurrency;
     private ProductCategory productCategory;
     private Supplier supplier;
-
 
     public Product(String name, BigDecimal defaultPrice, String currencyString, String description, ProductCategory productCategory, Supplier supplier) {
         this.name = name;
@@ -25,11 +31,9 @@ public class Product extends BaseModel {
     public BigDecimal getDefaultPrice(int decimals) {
         return defaultPrice.setScale(decimals, RoundingMode.HALF_DOWN);
     }
-
     public String getPrice() {
         return getDefaultPrice(2) + " " + defaultCurrency.toString();
     }
-
     public void setPrice(BigDecimal price, String currency) {
         this.defaultPrice = price;
         this.defaultCurrency = Currency.getInstance(currency);
@@ -57,47 +61,36 @@ public class Product extends BaseModel {
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
     public String getDescription() {
         return description;
     }
-
     public void setDescription(String description) {
         this.description = description;
     }
-
     public BigDecimal getDefaultPrice() {
         return defaultPrice;
     }
-
     public void setDefaultPrice(BigDecimal defaultPrice) {
         this.defaultPrice = defaultPrice;
     }
-
     public Currency getDefaultCurrency() {
         return defaultCurrency;
     }
-
     public void setDefaultCurrency(Currency defaultCurrency) {
         this.defaultCurrency = defaultCurrency;
     }
-
     public ProductCategory getProductCategory() {
         return productCategory;
     }
-
     public void setProductCategory(ProductCategory productCategory) {
         this.productCategory = productCategory;
     }
-
     public Supplier getSupplier() {
         return supplier;
     }
-
     public void setSupplier(Supplier supplier) {
         this.supplier = supplier;
     }

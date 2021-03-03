@@ -2,7 +2,9 @@ package com.codecool.buyourstuff.dao;
 
 import com.codecool.buyourstuff.model.*;
 import com.codecool.buyourstuff.util.BaseData;
+import lombok.Getter;
 
+@Getter
 public class DataManager {
     private static final DaoType DAO_TYPE = DaoType.MEMORY;
 
@@ -64,23 +66,18 @@ public class DataManager {
     public static ProductDao getProductDao() {
         return productDao;
     }
-
     public static ProductCategoryDao getProductCategoryDao() {
         return productCategoryDao;
     }
-
     public static SupplierDao getSupplierDao() {
         return supplierDao;
     }
-
     public static CartDao getCartDao() {
         return cartDao;
     }
-
     public static LineItemDao getLineItemDao() {
         return lineItemDao;
     }
-
     public static UserDao getUserDao() {
         return userDao;
     }

@@ -1,6 +1,10 @@
 package com.codecool.buyourstuff.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+@AllArgsConstructor
+@Getter
 public class Supplier extends BaseModel {
     private final String name;
     private final String description;
@@ -10,6 +14,7 @@ public class Supplier extends BaseModel {
         this.description = description;
     }
 
+    @Override
     public String toString() {
         return String.format("%1$s={" +
                         "id: %2$d, " +
@@ -25,7 +30,6 @@ public class Supplier extends BaseModel {
     public String getName() {
         return name;
     }
-
     public String getDescription() {
         return description;
     }

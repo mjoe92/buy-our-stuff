@@ -1,5 +1,8 @@
 package com.codecool.buyourstuff.model;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 public class LineItem extends BaseModel {
 
     private final Product product;
@@ -12,6 +15,7 @@ public class LineItem extends BaseModel {
         this.quantity = quantity;
     }
 
+    @Override
     public String toString() {
         return String.format("%1$s={quantity: %2$d, product: %3$s}",
                 getClass().getSimpleName(),
@@ -23,15 +27,12 @@ public class LineItem extends BaseModel {
     public Product getProduct() {
         return product;
     }
-
     public int getCartId() {
         return cartId;
     }
-
     public int getQuantity() {
         return quantity;
     }
-
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }

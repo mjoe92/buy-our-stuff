@@ -1,7 +1,11 @@
 package com.codecool.buyourstuff.dao;
 
 import com.codecool.buyourstuff.dao.implementation.mem.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+@Getter
+@AllArgsConstructor
 public class DaoImplementationSupplier {
 
     private final ProductDao productDao;
@@ -50,23 +54,18 @@ public class DaoImplementationSupplier {
     public ProductDao getProductDao() {
         return productDao;
     }
-
     public ProductCategoryDao getProductCategoryDao() {
         return productCategoryDao;
     }
-
     public SupplierDao getSupplierDao() {
         return supplierDao;
     }
-
     public CartDao getCartDao() {
         return cartDao;
     }
-
     public LineItemDao getLineItemDao() {
         return lineItemDao;
     }
-
     public UserDao getUserDao() {
         return userDao;
     }
