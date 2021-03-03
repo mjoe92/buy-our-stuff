@@ -1,8 +1,5 @@
 package com.codecool.buyourstuff.model;
 
-import lombok.AllArgsConstructor;
-
-@AllArgsConstructor
 public class LineItem extends BaseModel {
 
     private final Product product;

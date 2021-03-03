@@ -1,11 +1,7 @@
 package com.codecool.buyourstuff.dao;
 
 import com.codecool.buyourstuff.dao.implementation.mem.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 
-@Getter
-@AllArgsConstructor
 public class DaoImplementationSupplier {
 
     private final ProductDao productDao;

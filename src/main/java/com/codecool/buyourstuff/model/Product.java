@@ -64,23 +64,11 @@ public class Product extends BaseModel {
     public void setName(String name) {
         this.name = name;
     }
-    public String getDescription() {
-        return description;
-    }
-    public void setDescription(String description) {
-        this.description = description;
-    }
     public BigDecimal getDefaultPrice() {
         return defaultPrice;
     }
-    public void setDefaultPrice(BigDecimal defaultPrice) {
-        this.defaultPrice = defaultPrice;
-    }
     public Currency getDefaultCurrency() {
         return defaultCurrency;
-    }
-    public void setDefaultCurrency(Currency defaultCurrency) {
-        this.defaultCurrency = defaultCurrency;
     }
     public ProductCategory getProductCategory() {
         return productCategory;

@@ -1,13 +1,7 @@
 package com.codecool.buyourstuff.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
 import org.mindrot.jbcrypt.BCrypt;
 
-@AllArgsConstructor
-@Getter
-@Setter
 public class User extends BaseModel {
     private final String name;
     private final String password;

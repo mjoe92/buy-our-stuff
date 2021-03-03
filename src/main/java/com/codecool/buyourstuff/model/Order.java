@@ -1,8 +1,5 @@
 package com.codecool.buyourstuff.model;
 
-import lombok.AllArgsConstructor;
-
-@AllArgsConstructor
 public class Order {
 
     private final Cart cart;

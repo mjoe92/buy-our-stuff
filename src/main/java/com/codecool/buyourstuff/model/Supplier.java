@@ -1,9 +1,7 @@
 package com.codecool.buyourstuff.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-@AllArgsConstructor
 @Getter
 public class Supplier extends BaseModel {
     private final String name;
@@ -29,8 +27,5 @@ public class Supplier extends BaseModel {
 
     public String getName() {
         return name;
-    }
-    public String getDescription() {
-        return description;
     }
 }

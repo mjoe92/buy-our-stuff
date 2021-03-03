@@ -12,12 +12,6 @@ public class ProductCategory extends BaseModel {
     private String description;
     private String department;
 
-    public ProductCategory(String name, String description, String department) {
-        this.name = name;
-        this.description = description;
-        this.department = department;
-    }
-
     @Override
     public String toString() {
         return String.format("%1$s={" +
@@ -35,20 +29,5 @@ public class ProductCategory extends BaseModel {
 
     public String getName() {
         return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public String getDescription() {
-        return description;
-    }
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    public String getDepartment() {
-        return department;
-    }
-    public void setDepartment(String department) {
-        this.department = department;
     }
 }
