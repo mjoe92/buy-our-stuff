@@ -3,9 +3,17 @@ package com.codecool.buyourstuff.dao.implementation.database;
 import com.codecool.buyourstuff.dao.SupplierDao;
 import com.codecool.buyourstuff.model.Supplier;
 
+import java.sql.Connection;
 import java.util.List;
 
-public class SupplierDaoDB implements SupplierDao {
+public class SupplierDaoJDBC implements SupplierDao {
+
+    private Connection connection;
+
+    public SupplierDaoJDBC(Connection connection) {
+        this.connection = connection;
+        createTable();
+    }
 
     @Override
     public void createTable() {

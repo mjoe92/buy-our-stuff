@@ -3,7 +3,16 @@ package com.codecool.buyourstuff.dao.implementation.database;
 import com.codecool.buyourstuff.dao.UserDao;
 import com.codecool.buyourstuff.model.User;
 
-public class UserDaoDB implements UserDao {
+import java.sql.Connection;
+
+public class UserDaoJDBC implements UserDao {
+
+    private Connection connection;
+
+    public UserDaoJDBC(Connection connection) {
+        this.connection = connection;
+        createTable();
+    }
 
     @Override
     public void createTable() {
