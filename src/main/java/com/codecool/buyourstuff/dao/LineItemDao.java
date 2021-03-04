@@ -6,6 +6,7 @@ import com.codecool.buyourstuff.model.LineItem;
 import java.util.List;
 
 public interface LineItemDao {
+    void createTable();
     void add(LineItem lineItem);
     void remove(LineItem lineItem);
     void clear();

@@ -10,8 +10,18 @@ import java.util.List;
 public class ProductDaoDB implements ProductDao {
 
     @Override
+    public void createTable() {
+
+    }
+
+    @Override
     public void add(Product product) {
 
+    }
+
+    @Override
+    public List<Product> getAll() {
+        return null;
     }
 
     @Override

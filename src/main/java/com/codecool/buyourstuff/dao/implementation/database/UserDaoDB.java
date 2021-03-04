@@ -6,6 +6,11 @@ import com.codecool.buyourstuff.model.User;
 public class UserDaoDB implements UserDao {
 
     @Override
+    public void createTable() {
+
+    }
+
+    @Override
     public void add(User user) {
 
     }

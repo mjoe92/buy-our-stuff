@@ -5,6 +5,7 @@ import com.codecool.buyourstuff.model.ProductCategory;
 import java.util.List;
 
 public interface ProductCategoryDao {
+    void createTable();
     void add(ProductCategory category);
     ProductCategory find(int id);
     void remove(int id);
