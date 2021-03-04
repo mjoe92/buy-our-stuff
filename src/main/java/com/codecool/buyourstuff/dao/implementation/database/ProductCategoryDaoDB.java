@@ -8,6 +8,11 @@ import java.util.List;
 public class ProductCategoryDaoDB implements ProductCategoryDao {
 
     @Override
+    public void createTable() {
+
+    }
+
+    @Override
     public void add(ProductCategory category) {
 
     }

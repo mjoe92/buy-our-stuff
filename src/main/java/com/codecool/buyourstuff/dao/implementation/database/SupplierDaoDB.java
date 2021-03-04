@@ -8,6 +8,11 @@ import java.util.List;
 public class SupplierDaoDB implements SupplierDao {
 
     @Override
+    public void createTable() {
+
+    }
+
+    @Override
     public void add(Supplier supplier) {
 
     }

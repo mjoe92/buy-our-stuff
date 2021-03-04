@@ -16,6 +16,11 @@ public class UserDaoMem implements UserDao {
     private List<User> users = new ArrayList<>();
 
     @Override
+    public void createTable() {
+
+    }
+
+    @Override
     public void add(User user) {
         if (isNameAvailable(user.getName())) {
             CartDao cartDao = DataManager.getCartDao();

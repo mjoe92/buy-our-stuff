@@ -9,6 +9,11 @@ import java.util.List;
 public class LineItemDaoDB implements LineItemDao {
 
     @Override
+    public void createTable() {
+
+    }
+
+    @Override
     public void add(LineItem lineItem) {
 
     }

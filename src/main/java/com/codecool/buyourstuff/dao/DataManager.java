@@ -1,8 +1,15 @@
 package com.codecool.buyourstuff.dao;
 
+import com.codecool.buyourstuff.dao.implementation.database.*;
 import com.codecool.buyourstuff.model.*;
 import com.codecool.buyourstuff.util.BaseData;
 import lombok.Getter;
+import org.postgresql.ds.PGSimpleDataSource;
+
+import javax.sql.DataSource;
+import java.sql.SQLException;
+
+import static com.codecool.buyourstuff.dao.Security.*;
 
 @Getter
 public class DataManager {
@@ -16,6 +23,27 @@ public class DataManager {
     private static final CartDao cartDao = daoImplementationSupplier.getCartDao();
     private static final LineItemDao lineItemDao = daoImplementationSupplier.getLineItemDao();
     private static final UserDao userDao = daoImplementationSupplier.getUserDao();
+
+    private static DataSource connect() throws SQLException {
+        PGSimpleDataSource dataSource = new PGSimpleDataSource();
+
+        String dbName = DB_NAME.getPd();
+        String user = USER_NAME.getPd();
+        String password = PASSWORD.getPd();
+
+        dataSource.setDatabaseName(dbName);
+        dataSource.setUser(user);
+        dataSource.setPassword(password);
+
+        new CartDaoDB().createTable();
+        new LineItemDaoDB().createTable();
+        new ProductCategoryDaoDB().createTable();
+        new ProductDaoDB().createTable();
+        new SupplierDaoDB().createTable();
+        new UserDaoDB().createTable();
+
+        return dataSource;
+    }
 
     public static void init() {
         initCart();

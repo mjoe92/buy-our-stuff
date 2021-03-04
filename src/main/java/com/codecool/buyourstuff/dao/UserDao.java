@@ -3,6 +3,7 @@ package com.codecool.buyourstuff.dao;
 import com.codecool.buyourstuff.model.User;
 
 public interface UserDao {
+    void createTable();
     void add(User user);
     User find(String userName, String password);
     void clear();

@@ -14,6 +14,11 @@ public class LineItemDaoMem implements LineItemDao {
     private List<LineItem> data = new ArrayList<>();
 
     @Override
+    public void createTable() {
+
+    }
+
+    @Override
     public void add(LineItem lineItem) {
         data.add(lineItem);
     }

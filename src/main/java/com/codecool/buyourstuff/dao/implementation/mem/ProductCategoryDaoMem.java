@@ -12,6 +12,11 @@ public class ProductCategoryDaoMem implements ProductCategoryDao {
     private List<ProductCategory> data = new ArrayList<>();
 
     @Override
+    public void createTable() {
+
+    }
+
+    @Override
     public void add(ProductCategory category) {
         category.setId(data.size() + 1);
         data.add(category);

@@ -12,6 +12,11 @@ public class CartDaoMem implements CartDao {
     private List<Cart> data = new ArrayList<>();
 
     @Override
+    public void createTable() {
+
+    }
+
+    @Override
     public void add(Cart cart) {
         cart.setId(data.size() + 1);
         data.add(cart);
