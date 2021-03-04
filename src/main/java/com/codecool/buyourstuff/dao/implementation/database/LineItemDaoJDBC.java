@@ -4,9 +4,17 @@ import com.codecool.buyourstuff.dao.LineItemDao;
 import com.codecool.buyourstuff.model.Cart;
 import com.codecool.buyourstuff.model.LineItem;
 
+import java.sql.Connection;
 import java.util.List;
 
 public class LineItemDaoJDBC implements LineItemDao {
+
+    private Connection connection;
+
+    public LineItemDaoJDBC(Connection connection) {
+        this.connection = connection;
+        createTable();
+    }
 
     @Override
     public void createTable() {

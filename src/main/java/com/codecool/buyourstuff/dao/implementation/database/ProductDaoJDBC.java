@@ -5,9 +5,17 @@ import com.codecool.buyourstuff.model.Product;
 import com.codecool.buyourstuff.model.ProductCategory;
 import com.codecool.buyourstuff.model.Supplier;
 
+import java.sql.Connection;
 import java.util.List;
 
 public class ProductDaoJDBC implements ProductDao {
+
+    private Connection connection;
+
+    public ProductDaoJDBC(Connection connection) {
+        this.connection = connection;
+        createTable();
+    }
 
     @Override
     public void createTable() {

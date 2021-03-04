@@ -3,9 +3,17 @@ package com.codecool.buyourstuff.dao.implementation.database;
 import com.codecool.buyourstuff.dao.CartDao;
 import com.codecool.buyourstuff.model.Cart;
 
+import java.sql.Connection;
 import java.util.List;
 
 public class CartDaoJDBC implements CartDao {
+
+    private Connection connection;
+
+    public CartDaoJDBC(Connection connection) {
+        this.connection = connection;
+        createTable();
+    }
 
     @Override
     public void createTable() {
