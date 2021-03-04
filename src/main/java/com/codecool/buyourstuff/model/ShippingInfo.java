@@ -2,6 +2,7 @@ package com.codecool.buyourstuff.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 @AllArgsConstructor
@@ -9,10 +10,15 @@ import lombok.Setter;
 @Setter
 public class ShippingInfo {
 
+    @NonNull
     private String name;
+    @NonNull
     private String email;
+    @NonNull
     private String phoneNumber;
+    @NonNull
     private String billingAddress;
+    @NonNull
     private String shippingAddress;
 
     @Override

@@ -2,14 +2,19 @@ package com.codecool.buyourstuff.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 @AllArgsConstructor
 @Getter
 @Setter
 public class ProductCategory extends BaseModel {
+
+    @NonNull
     private String name;
+    @NonNull
     private String description;
+    @NonNull
     private String department;
 
     @Override
