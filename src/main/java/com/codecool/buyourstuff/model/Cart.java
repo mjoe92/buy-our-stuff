@@ -2,11 +2,13 @@ package com.codecool.buyourstuff.model;
 
 import com.codecool.buyourstuff.dao.DataManager;
 import com.codecool.buyourstuff.dao.LineItemDao;
+import lombok.Getter;
 
 import java.util.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+@Getter
 public class Cart extends BaseModel {
 
     private final Currency currency;
@@ -17,10 +19,6 @@ public class Cart extends BaseModel {
 
     public Cart() {
         this.currency = Currency.getInstance("USD");
-    }
-
-    public List<LineItem> getItems() {
-        return items();
     }
 
     public void add(Product product) {
@@ -93,7 +91,4 @@ public class Cart extends BaseModel {
         return String.format("items: %1$s, currency: %2$s", items(), currency);
     }
 
-    public Currency getCurrency() {
-        return currency;
-    }
 }
