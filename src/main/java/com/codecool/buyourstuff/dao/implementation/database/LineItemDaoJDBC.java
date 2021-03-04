@@ -6,7 +6,7 @@ import com.codecool.buyourstuff.model.LineItem;
 
 import java.util.List;
 
-public class LineItemDaoDB implements LineItemDao {
+public class LineItemDaoJDBC implements LineItemDao {
 
     @Override
     public void createTable() {

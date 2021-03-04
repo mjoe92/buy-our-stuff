@@ -5,7 +5,7 @@ import com.codecool.buyourstuff.model.Cart;
 
 import java.util.List;
 
-public class CartDaoDB implements CartDao {
+public class CartDaoJDBC implements CartDao {
 
     @Override
     public void createTable() {

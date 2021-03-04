@@ -1,11 +1,11 @@
 package com.codecool.buyourstuff.dao.implementation.database;
 
-import com.codecool.buyourstuff.dao.SupplierDao;
-import com.codecool.buyourstuff.model.Supplier;
+import com.codecool.buyourstuff.dao.ProductCategoryDao;
+import com.codecool.buyourstuff.model.ProductCategory;
 
 import java.util.List;
 
-public class SupplierDaoDB implements SupplierDao {
+public class ProductCategoryDaoJDBC implements ProductCategoryDao {
 
     @Override
     public void createTable() {
@@ -13,12 +13,12 @@ public class SupplierDaoDB implements SupplierDao {
     }
 
     @Override
-    public void add(Supplier supplier) {
+    public void add(ProductCategory category) {
 
     }
 
     @Override
-    public Supplier find(int id) {
+    public ProductCategory find(int id) {
         return null;
     }
 
@@ -33,7 +33,7 @@ public class SupplierDaoDB implements SupplierDao {
     }
 
     @Override
-    public List<Supplier> getAll() {
+    public List<ProductCategory> getAll() {
         return null;
     }
 

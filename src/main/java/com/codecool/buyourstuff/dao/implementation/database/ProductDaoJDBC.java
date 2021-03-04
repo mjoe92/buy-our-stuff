@@ -7,7 +7,7 @@ import com.codecool.buyourstuff.model.Supplier;
 
 import java.util.List;
 
-public class ProductDaoDB implements ProductDao {
+public class ProductDaoJDBC implements ProductDao {
 
     @Override
     public void createTable() {
