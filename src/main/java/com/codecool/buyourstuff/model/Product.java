@@ -8,7 +8,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Currency;
 
-@AllArgsConstructor
 @Getter
 @Setter
 public class Product extends BaseModel {
@@ -20,7 +19,7 @@ public class Product extends BaseModel {
     private ProductCategory productCategory;
     private Supplier supplier;
 
-    public Product(String name, BigDecimal defaultPrice, String currencyString, String description, ProductCategory productCategory, Supplier supplier) {
+    public Product(String name, String description, BigDecimal defaultPrice, String currencyString, ProductCategory productCategory, Supplier supplier) {
         this.name = name;
         this.description = description;
         this.setPrice(defaultPrice, currencyString);
@@ -56,30 +55,5 @@ public class Product extends BaseModel {
                 productCategory.getName(),
                 supplier.getName()
         );
-    }
-
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public BigDecimal getDefaultPrice() {
-        return defaultPrice;
-    }
-    public Currency getDefaultCurrency() {
-        return defaultCurrency;
-    }
-    public ProductCategory getProductCategory() {
-        return productCategory;
-    }
-    public void setProductCategory(ProductCategory productCategory) {
-        this.productCategory = productCategory;
-    }
-    public Supplier getSupplier() {
-        return supplier;
-    }
-    public void setSupplier(Supplier supplier) {
-        this.supplier = supplier;
     }
 }

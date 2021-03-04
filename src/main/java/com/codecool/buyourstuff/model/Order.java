@@ -1,14 +1,14 @@
 package com.codecool.buyourstuff.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
+@Getter
 public class Order {
 
     private final Cart cart;
     private final ShippingInfo shippingInfo;
-
-    public Order(Cart cart, ShippingInfo shippingInfo) {
-        this.cart = cart;
-        this.shippingInfo = shippingInfo;
-    }
 
     @Override
     public String toString() {

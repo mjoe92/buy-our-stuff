@@ -1,8 +1,13 @@
 package com.codecool.buyourstuff.model;
 
 import com.codecool.buyourstuff.util.Error;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.lang.reflect.Field;
 
+@Getter
+@Setter
 public abstract class BaseModel {
 
     protected int id;
@@ -29,10 +34,4 @@ public abstract class BaseModel {
         return stringBuilder.toString();
     }
 
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
-    }
 }

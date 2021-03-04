@@ -27,7 +27,4 @@ public class ProductCategory extends BaseModel {
         );
     }
 
-    public String getName() {
-        return name;
-    }
 }

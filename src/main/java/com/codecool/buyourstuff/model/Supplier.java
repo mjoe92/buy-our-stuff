@@ -1,16 +1,13 @@
 package com.codecool.buyourstuff.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+@AllArgsConstructor
 @Getter
 public class Supplier extends BaseModel {
     private final String name;
     private final String description;
-
-    public Supplier(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
 
     @Override
     public String toString() {
@@ -23,9 +20,5 @@ public class Supplier extends BaseModel {
                 name,
                 description
         );
-    }
-
-    public String getName() {
-        return name;
     }
 }

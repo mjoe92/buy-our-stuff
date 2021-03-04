@@ -1,16 +1,17 @@
 package com.codecool.buyourstuff.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+@AllArgsConstructor
+@Getter
+@Setter
 public class LineItem extends BaseModel {
 
     private final Product product;
     private final int cartId;
     private int quantity;
-
-    public LineItem(Product product, int cartId, int quantity) {
-        this.product = product;
-        this.cartId = cartId;
-        this.quantity = quantity;
-    }
 
     @Override
     public String toString() {
@@ -19,18 +20,5 @@ public class LineItem extends BaseModel {
                 quantity,
                 product
         );
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-    public int getCartId() {
-        return cartId;
-    }
-    public int getQuantity() {
-        return quantity;
-    }
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 }

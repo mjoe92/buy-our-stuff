@@ -11,7 +11,6 @@ import java.sql.SQLException;
 
 import static com.codecool.buyourstuff.dao.Security.*;
 
-@Getter
 public class DataManager {
     private static final DaoType DAO_TYPE = DaoType.MEMORY;
 
