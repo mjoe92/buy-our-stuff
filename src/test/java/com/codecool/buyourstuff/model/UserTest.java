@@ -10,32 +10,38 @@ public class UserTest {
 
     @Test
     void usernameLengthBelowMinimumThrows() {
-        assertThrows(IllegalArgumentException.class, () -> new User("foob", PW_DEFAULT));
+        assertThrows(IllegalArgumentException.class, () ->
+                new User("foob", PW_DEFAULT));
     }
 
     @Test
     void usernameLengthAboveMaximumThrows() {
-        assertThrows(IllegalArgumentException.class, () -> new User("Pekwachnamaykoskwaskwaypinwanik", PW_DEFAULT));
+        assertThrows(IllegalArgumentException.class, () ->
+                new User("Pekwachnamaykoskwaskwaypinwanik", PW_DEFAULT));
     }
 
     @Test
     void usernameContainsInvalidChar() {
-        assertThrows(IllegalArgumentException.class, () -> new User("I'm invalid", PW_DEFAULT));
+        assertThrows(IllegalArgumentException.class, () ->
+                new User("I'm invalid", PW_DEFAULT));
     }
 
     @Test
     void passwordLengthBelowMinimumThrows() {
-        assertThrows(IllegalArgumentException.class, () -> new User(NAME_DEFAULT,"foob"));
+        assertThrows(IllegalArgumentException.class, () ->
+                new User(NAME_DEFAULT,"foob"));
     }
 
     @Test
     void passwordLengthAboveMaximumThrows() {
-        assertThrows(IllegalArgumentException.class, () -> new User(NAME_DEFAULT,"Pekwachnamaykoskwaskwaypinwanik"));
+        assertThrows(IllegalArgumentException.class, () ->
+                new User(NAME_DEFAULT,"Pekwachnamaykoskwaskwaypinwanik"));
     }
 
     @Test
     void passwordContainsInvalidChar() {
-        assertThrows(IllegalArgumentException.class, () -> new User(NAME_DEFAULT,"I'm invalid"));
+        assertThrows(IllegalArgumentException.class, () ->
+                new User(NAME_DEFAULT,"I'm invalid"));
     }
 
 }

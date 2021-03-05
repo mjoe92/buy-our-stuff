@@ -20,7 +20,7 @@ public class User extends BaseModel {
     private final String password;
     private int cartId;
 
-    public User(String name, String password) {
+    public User(@NonNull String name, @NonNull String password) {
         if (!isCreationValid(name)) {
             throw new IllegalArgumentException("Invalid username");
         }

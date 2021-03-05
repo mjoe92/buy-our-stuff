@@ -1,6 +1,7 @@
 package com.codecool.buyourstuff.model;
 
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 import java.math.BigDecimal;
@@ -11,7 +12,9 @@ import java.util.Currency;
 @Setter
 public class Product extends BaseModel {
 
+    @NonNull
     private String name;
+    @NonNull
     private String description;
     private BigDecimal defaultPrice;
     private Currency defaultCurrency;

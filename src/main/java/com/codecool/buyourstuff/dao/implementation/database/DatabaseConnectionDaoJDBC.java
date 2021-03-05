@@ -6,8 +6,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import static com.codecool.buyourstuff.dao.implementation.database.Security.*;
-
 public class DatabaseConnectionDaoJDBC implements DatabaseConnectionDao {
 
     private final String dbName;
@@ -19,10 +17,11 @@ public class DatabaseConnectionDaoJDBC implements DatabaseConnectionDao {
      * Add your own values in
      * com.codecool.buyourstuff.dao.implementation.database.Security.
      */
+
     public DatabaseConnectionDaoJDBC() {
-        dbName = DB_NAME.getPd();
-        userName = USER_NAME.getPd();
-        password = PASSWORD.getPd();
+        dbName = "database";       //DB_NAME.getPd();
+        userName = "postgres";     //USER_NAME.getPd();
+        password = "asdfqwer";     //PASSWORD.getPd();
     }
 
     @Override
