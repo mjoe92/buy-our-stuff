@@ -17,15 +17,16 @@ import java.util.List;
 
 public class ProductDaoJDBC implements ProductDao {
 
-    private DataSource dataSource;
-    private ProductCategoryDao productCategoryDao;
-    private SupplierDao supplierDao;
+    private final DataSource dataSource;
+    private final ProductCategoryDao productCategoryDao;
+    private final SupplierDao supplierDao;
 
     public ProductDaoJDBC(DataSource dataSource, ProductCategoryDao productCategoryDao, SupplierDao supplierDao) {
         this.dataSource = dataSource;
         this.productCategoryDao = productCategoryDao;
         this.supplierDao = supplierDao;
         createTable();
+        addTableConstraint();
     }
 
     @Override
@@ -95,7 +96,7 @@ public class ProductDaoJDBC implements ProductDao {
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement pst = connection.prepareStatement(sql);
             ResultSet resultSet = pst.executeQuery();
-            Product product = null;
+            Product product;
             while (resultSet.next()) {
                 product = new Product(
                         resultSet.getString("name"),
@@ -172,7 +173,7 @@ public class ProductDaoJDBC implements ProductDao {
             PreparedStatement pst = connection.prepareStatement(sql);
             pst.setInt(1, supplier.getId());
             ResultSet resultSet = pst.executeQuery();
-            Product product = null;
+            Product product;
             while (resultSet.next()) {
                 product = new Product(
                         resultSet.getString("name"),
@@ -200,7 +201,7 @@ public class ProductDaoJDBC implements ProductDao {
             PreparedStatement pst = connection.prepareStatement(sql);
             pst.setInt(1, productCategory.getId());
             ResultSet resultSet = pst.executeQuery();
-            Product product = null;
+            Product product;
             while (resultSet.next()) {
                 product = new Product(
                         resultSet.getString("name"),
