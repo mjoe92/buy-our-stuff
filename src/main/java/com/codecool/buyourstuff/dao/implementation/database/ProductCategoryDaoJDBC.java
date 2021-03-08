@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ProductCategoryDaoJDBC implements ProductCategoryDao {
 
-    private DataSource dataSource;
+    private final DataSource dataSource;
 
     public ProductCategoryDaoJDBC(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -86,8 +86,7 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
     public void clear() {
         String sql = "DELETE FROM product_category;";
         try (Connection connection = dataSource.getConnection()) {
-            PreparedStatement pst = connection.prepareStatement(sql);
-            pst.executeUpdate();
+            connection.prepareStatement(sql).executeUpdate();
         } catch (SQLException sqle) {
             throw new RuntimeException(getClass().getSimpleName() + " " + sql + ": " + sqle.getSQLState());
         }
