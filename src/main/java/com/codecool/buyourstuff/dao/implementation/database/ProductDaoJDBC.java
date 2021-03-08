@@ -40,8 +40,7 @@ public class ProductDaoJDBC implements ProductDao {
                  "product_category_id INTEGER, " +
                  "supplier_id INTEGER);";
          try (Connection connection = dataSource.getConnection()) {
-             PreparedStatement pst = connection.prepareStatement(sql);
-             pst.execute();
+             connection.prepareStatement(sql).execute();
          } catch (SQLException sqle) {
              throw new RuntimeException(getClass().getSimpleName() + " " + sql + ": " + sqle.getSQLState());
          }
