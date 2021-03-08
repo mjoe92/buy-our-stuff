@@ -89,7 +89,7 @@ public class ProductDaoJDBC implements ProductDao {
 
     @Override
     public List<Product> getAll() {
-        List<Product> resultList = new ArrayList<>();
+        List<Product> productList = new ArrayList<>();
         String sql = "SELECT id, name, description, default_price, default_currency_code, " +
                 "product_category_id, supplier_id FROM product;";
         try (Connection connection = dataSource.getConnection()) {
@@ -106,12 +106,12 @@ public class ProductDaoJDBC implements ProductDao {
                         supplierDao.find(resultSet.getInt("supplier_id"))
                 );
                 product.setId(resultSet.getInt("id"));
-                resultList.add(product);
+                productList.add(product);
             }
         } catch (SQLException sqle) {
             throw new RuntimeException(getClass().getSimpleName() + " " + sql + ": " + sqle.getSQLState());
         }
-        return resultList;
+        return productList;
     }
 
     @Override
