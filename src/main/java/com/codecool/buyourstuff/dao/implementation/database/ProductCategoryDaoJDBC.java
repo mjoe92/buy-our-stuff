@@ -23,10 +23,10 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
     @Override
     public void createTable() {
         String sql = "CREATE TABLE IF NOT EXISTS product_category(" +
-                "id serial PRIMARY KEY, " +
-                "name text NOT NULL, " +
-                "description text, " +
-                "department text);";
+                "id SERIAL PRIMARY KEY, " +
+                "name TEXT NOT NULL, " +
+                "description TEXT NOT NULL, " +
+                "department TEXT NOT NULL);";
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement pst = connection.prepareStatement(sql);
             pst.execute();
@@ -43,6 +43,7 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
             pst.setString(1, category.getName());
             pst.setString(2, category.getDescription());
             pst.setString(3, category.getDescription());
+            pst.executeUpdate();
         } catch (SQLException sqle) {
             throw new RuntimeException(getClass().getSimpleName() + " " + sql + ": " + sqle.getSQLState());
         }
