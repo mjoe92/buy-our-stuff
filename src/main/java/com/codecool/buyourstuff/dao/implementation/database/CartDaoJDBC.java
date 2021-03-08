@@ -3,15 +3,15 @@ package com.codecool.buyourstuff.dao.implementation.database;
 import com.codecool.buyourstuff.dao.CartDao;
 import com.codecool.buyourstuff.model.Cart;
 
-import java.sql.Connection;
+import javax.sql.DataSource;
 import java.util.List;
 
 public class CartDaoJDBC implements CartDao {
 
-    private Connection connection;
+    private DataSource dataSource;
 
-    public CartDaoJDBC(Connection connection) {
-        this.connection = connection;
+    public CartDaoJDBC(DataSource dataSource) {
+        this.dataSource = dataSource;
         createTable();
     }
 

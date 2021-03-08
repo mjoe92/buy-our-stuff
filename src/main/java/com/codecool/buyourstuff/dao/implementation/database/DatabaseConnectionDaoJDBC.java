@@ -1,17 +1,17 @@
 package com.codecool.buyourstuff.dao.implementation.database;
 
 import com.codecool.buyourstuff.dao.DatabaseConnectionDao;
+import org.postgresql.ds.PGSimpleDataSource;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import javax.sql.DataSource;
 
 public class DatabaseConnectionDaoJDBC implements DatabaseConnectionDao {
 
+    private final String host = "localhost";
+    private final int port = 5432;
     private final String dbName;
     private final String userName;
     private final String password;
-    private final String host = "localhost";
 
     /*
      * Add your own values in
@@ -24,27 +24,32 @@ public class DatabaseConnectionDaoJDBC implements DatabaseConnectionDao {
         password = "asdfqwer";     //PASSWORD.getPd();
     }
 
+    // Delete later if not needed
+//
+//    @Override
+//    public Connection getConnection() {
+//        Connection connection = null;
+//        try {
+//            connection = DriverManager.getConnection(
+//                    "jdbc:postgresql://" + host + ":5432/" + dbName, userName, password);
+//        } catch (SQLException sqle) {
+//            throw new RuntimeException("DatabaseDaoJdbc getConnection(): " + sqle.getSQLState());
+//        }
+//        return connection;
+//    }
+
+
     @Override
-    public Connection getConnection() {
-        Connection connection = null;
-        try {
-            connection = DriverManager.getConnection(
-                    "jdbc:postgresql://" + host + ":5432/" + dbName, userName, password);
-        } catch (SQLException sqle) {
-            throw new RuntimeException("DatabaseDaoJdbc getConnection(): " + sqle.getSQLState());
-        }
-        return connection;
+    public DataSource createDataSource() {
+        PGSimpleDataSource dataSource = new PGSimpleDataSource();
+        dataSource.setServerName(host);
+        dataSource.setPortNumber(port);
+        dataSource.setDatabaseName(dbName);
+        dataSource.setUser(userName);
+        dataSource.setPassword(password);
+        return dataSource;
     }
 
-    // Delete later if not needed
 
-//    @Override
-//    public DataSource setDataSource() {
-//        PGSimpleDataSource dataSource = new PGSimpleDataSource();
-//        dataSource.setDatabaseName(dbName);
-//        dataSource.setUser(userName);
-//        dataSource.setPassword(password);
-//        return dataSource;
-//    }
 
 }

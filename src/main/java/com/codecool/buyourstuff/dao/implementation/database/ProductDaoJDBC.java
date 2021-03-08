@@ -5,15 +5,15 @@ import com.codecool.buyourstuff.model.Product;
 import com.codecool.buyourstuff.model.ProductCategory;
 import com.codecool.buyourstuff.model.Supplier;
 
-import java.sql.Connection;
+import javax.sql.DataSource;
 import java.util.List;
 
 public class ProductDaoJDBC implements ProductDao {
 
-    private Connection connection;
+    private DataSource dataSource;
 
-    public ProductDaoJDBC(Connection connection) {
-        this.connection = connection;
+    public ProductDaoJDBC(DataSource dataSource) {
+        this.dataSource = dataSource;
         createTable();
     }
 

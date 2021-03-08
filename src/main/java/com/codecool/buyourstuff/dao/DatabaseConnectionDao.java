@@ -1,8 +1,8 @@
 package com.codecool.buyourstuff.dao;
 
-import java.sql.Connection;
+import javax.sql.DataSource;
 
 public interface DatabaseConnectionDao {
 
-    Connection getConnection();
+    DataSource createDataSource();
 }

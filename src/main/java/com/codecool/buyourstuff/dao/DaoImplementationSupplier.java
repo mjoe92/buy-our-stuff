@@ -33,12 +33,12 @@ public class DaoImplementationSupplier {
             case DATABASE:
                 DatabaseConnectionDao databaseConnectionDao = new DatabaseConnectionDaoJDBC();
                 return new DaoImplementationSupplier(
-                        new ProductDaoJDBC(databaseConnectionDao.getConnection()),
-                        new ProductCategoryDaoJDBC(databaseConnectionDao.getConnection()),
-                        new SupplierDaoJDBC(databaseConnectionDao.getConnection()),
-                        new CartDaoJDBC(databaseConnectionDao.getConnection()),
-                        new LineItemDaoJDBC(databaseConnectionDao.getConnection()),
-                        new UserDaoJDBC(databaseConnectionDao.getConnection())
+                        new ProductDaoJDBC(databaseConnectionDao.createDataSource()),
+                        new ProductCategoryDaoJDBC(databaseConnectionDao.createDataSource()),
+                        new SupplierDaoJDBC(databaseConnectionDao.createDataSource()),
+                        new CartDaoJDBC(databaseConnectionDao.createDataSource()),
+                        new LineItemDaoJDBC(databaseConnectionDao.createDataSource()),
+                        new UserDaoJDBC(databaseConnectionDao.createDataSource())
                 );
             case MEMORY:
             default:

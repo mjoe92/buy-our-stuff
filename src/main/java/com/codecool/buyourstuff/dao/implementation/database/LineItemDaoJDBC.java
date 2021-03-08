@@ -4,15 +4,15 @@ import com.codecool.buyourstuff.dao.LineItemDao;
 import com.codecool.buyourstuff.model.Cart;
 import com.codecool.buyourstuff.model.LineItem;
 
-import java.sql.Connection;
+import javax.sql.DataSource;
 import java.util.List;
 
 public class LineItemDaoJDBC implements LineItemDao {
 
-    private Connection connection;
+    private DataSource dataSource;
 
-    public LineItemDaoJDBC(Connection connection) {
-        this.connection = connection;
+    public LineItemDaoJDBC(DataSource dataSource) {
+        this.dataSource = dataSource;
         createTable();
     }
 

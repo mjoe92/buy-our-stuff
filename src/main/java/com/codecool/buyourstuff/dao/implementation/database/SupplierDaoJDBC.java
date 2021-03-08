@@ -3,15 +3,15 @@ package com.codecool.buyourstuff.dao.implementation.database;
 import com.codecool.buyourstuff.dao.SupplierDao;
 import com.codecool.buyourstuff.model.Supplier;
 
-import java.sql.Connection;
+import javax.sql.DataSource;
 import java.util.List;
 
 public class SupplierDaoJDBC implements SupplierDao {
 
-    private Connection connection;
+    private DataSource dataSource;
 
-    public SupplierDaoJDBC(Connection connection) {
-        this.connection = connection;
+    public SupplierDaoJDBC(DataSource dataSource) {
+        this.dataSource = dataSource;
         createTable();
     }
 
