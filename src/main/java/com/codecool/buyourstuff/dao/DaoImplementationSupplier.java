@@ -3,6 +3,8 @@ package com.codecool.buyourstuff.dao;
 import com.codecool.buyourstuff.dao.implementation.database.*;
 import com.codecool.buyourstuff.dao.implementation.mem.*;
 
+import javax.sql.DataSource;
+
 public class DaoImplementationSupplier {
 
     private final ProductDao productDao;
@@ -32,13 +34,21 @@ public class DaoImplementationSupplier {
             case FILE: //TODO: return the DAO implementations that work with files
             case DATABASE:
                 DatabaseDataSourceDao databaseDataSourceDao = new DatabaseDataSourceDaoJDBC();
+                DataSource dataSource = databaseDataSourceDao.createDataSource();
+                ProductCategoryDao productCategoryDao = new ProductCategoryDaoJDBC(dataSource);
+                SupplierDao supplierDao = new SupplierDaoJDBC(dataSource);
+                ProductDao productDao = new ProductDaoJDBC(dataSource, productCategoryDao, supplierDao);
+                CartDao cartDao = new CartDaoJDBC(dataSource);
+                LineItemDao lineItemDao = new LineItemDaoJDBC(dataSource);
+                UserDao userDao = new UserDaoJDBC(dataSource);
+
                 return new DaoImplementationSupplier(
-                        new ProductDaoJDBC(databaseDataSourceDao.createDataSource()),
-                        new ProductCategoryDaoJDBC(databaseDataSourceDao.createDataSource()),
-                        new SupplierDaoJDBC(databaseDataSourceDao.createDataSource()),
-                        new CartDaoJDBC(databaseDataSourceDao.createDataSource()),
-                        new LineItemDaoJDBC(databaseDataSourceDao.createDataSource()),
-                        new UserDaoJDBC(databaseDataSourceDao.createDataSource())
+                        productDao,
+                        productCategoryDao,
+                        supplierDao,
+                        cartDao,
+                        lineItemDao,
+                        userDao
                 );
             case MEMORY:
             default:
