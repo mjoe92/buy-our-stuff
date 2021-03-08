@@ -31,14 +31,14 @@ public class DaoImplementationSupplier {
         switch (daoType) {
             case FILE: //TODO: return the DAO implementations that work with files
             case DATABASE:
-                DatabaseConnectionDao databaseConnectionDao = new DatabaseConnectionDaoJDBC();
+                DatabaseDataSourceDao databaseDataSourceDao = new DatabaseDataSourceDaoJDBC();
                 return new DaoImplementationSupplier(
-                        new ProductDaoJDBC(databaseConnectionDao.createDataSource()),
-                        new ProductCategoryDaoJDBC(databaseConnectionDao.createDataSource()),
-                        new SupplierDaoJDBC(databaseConnectionDao.createDataSource()),
-                        new CartDaoJDBC(databaseConnectionDao.createDataSource()),
-                        new LineItemDaoJDBC(databaseConnectionDao.createDataSource()),
-                        new UserDaoJDBC(databaseConnectionDao.createDataSource())
+                        new ProductDaoJDBC(databaseDataSourceDao.createDataSource()),
+                        new ProductCategoryDaoJDBC(databaseDataSourceDao.createDataSource()),
+                        new SupplierDaoJDBC(databaseDataSourceDao.createDataSource()),
+                        new CartDaoJDBC(databaseDataSourceDao.createDataSource()),
+                        new LineItemDaoJDBC(databaseDataSourceDao.createDataSource()),
+                        new UserDaoJDBC(databaseDataSourceDao.createDataSource())
                 );
             case MEMORY:
             default:

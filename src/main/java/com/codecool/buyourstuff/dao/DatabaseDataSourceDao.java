@@ -2,7 +2,7 @@ package com.codecool.buyourstuff.dao;
 
 import javax.sql.DataSource;
 
-public interface DatabaseConnectionDao {
+public interface DatabaseDataSourceDao {
 
     DataSource createDataSource();
 }

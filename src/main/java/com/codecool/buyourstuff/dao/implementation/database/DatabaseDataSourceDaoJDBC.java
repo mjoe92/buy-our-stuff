@@ -1,11 +1,11 @@
 package com.codecool.buyourstuff.dao.implementation.database;
 
-import com.codecool.buyourstuff.dao.DatabaseConnectionDao;
+import com.codecool.buyourstuff.dao.DatabaseDataSourceDao;
 import org.postgresql.ds.PGSimpleDataSource;
 
 import javax.sql.DataSource;
 
-public class DatabaseConnectionDaoJDBC implements DatabaseConnectionDao {
+public class DatabaseDataSourceDaoJDBC implements DatabaseDataSourceDao {
 
     private final String host = "localhost";
     private final int port = 5432;
@@ -18,7 +18,7 @@ public class DatabaseConnectionDaoJDBC implements DatabaseConnectionDao {
      * com.codecool.buyourstuff.dao.implementation.database.Security.
      */
 
-    public DatabaseConnectionDaoJDBC() {
+    public DatabaseDataSourceDaoJDBC() {
         dbName = "database";       //DB_NAME.getPd();
         userName = "postgres";     //USER_NAME.getPd();
         password = "asdfqwer";     //PASSWORD.getPd();
