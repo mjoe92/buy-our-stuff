@@ -4,6 +4,11 @@ import com.codecool.buyourstuff.dao.SupplierDao;
 import com.codecool.buyourstuff.model.Supplier;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SupplierDaoJDBC implements SupplierDao {
@@ -17,32 +22,96 @@ public class SupplierDaoJDBC implements SupplierDao {
 
     @Override
     public void createTable() {
-
+        String sql = "CREATE TABLE IF NOT EXISTS supplier(" +
+                "id SERIAL NOT NULL, " +
+                "name TEXT NOT NULL, " +
+                "description NOT NULL);";
+        try (Connection connection = dataSource.getConnection()) {
+            PreparedStatement pst = connection.prepareStatement(sql);
+            pst.execute();
+        } catch (SQLException sqle) {
+            throw new RuntimeException(getClass().getSimpleName() + " " + sql + ": " + sqle.getSQLState());
+        }
     }
 
     @Override
     public void add(Supplier supplier) {
-
+        String sql = "INSERT INTO supplier (name, description) VALUES (?,?);";
+        try (Connection connection = dataSource.getConnection()) {
+            PreparedStatement pst = connection.prepareStatement(sql);
+            pst.setString(1, supplier.getName());
+            pst.setString(2, supplier.getDescription());
+            pst.executeUpdate();
+        } catch (SQLException sqle) {
+            throw new RuntimeException(getClass().getSimpleName() + " " + sql + ": " + sqle.getSQLState());
+        }
     }
 
     @Override
     public Supplier find(int id) {
-        return null;
+        Supplier supplier = null;
+        String sql = "SELECT name, description FROM supplier WHERE id = ?;";
+        try (Connection connection = dataSource.getConnection()) {
+            PreparedStatement pst = connection.prepareStatement(sql);
+            pst.setInt(1, id);
+            ResultSet resultSet = pst.executeQuery();
+            if (resultSet.next()) {
+                supplier = new Supplier(
+                        resultSet.getString("name"),
+                        resultSet.getString("description")
+                );
+                supplier.setId(id);
+            }
+        } catch (SQLException sqle) {
+            throw new RuntimeException(getClass().getSimpleName() + " " + sql + ": " + sqle.getSQLState());
+        }
+        return supplier;
     }
+
 
     @Override
     public void remove(int id) {
-
+        String sql = "DELETE FROM supplier WHERE id = ?;";
+        try (Connection connection = dataSource.getConnection()) {
+            PreparedStatement pst = connection.prepareStatement(sql);
+            pst.setInt(1, id);
+            pst.executeUpdate();
+        } catch (SQLException sqle) {
+            throw new RuntimeException(getClass().getSimpleName() + " " + sql + ": " + sqle.getSQLState());
+        }
     }
 
     @Override
     public void clear() {
-
+        String sql = "DELETE * FROM supplier;";
+        try (Connection connection = dataSource.getConnection()) {
+            PreparedStatement pst = connection.prepareStatement(sql);
+            pst.executeUpdate();
+        } catch (SQLException sqle) {
+            throw new RuntimeException(getClass().getSimpleName() + " " + sql + ": " + sqle.getSQLState());
+        }
     }
 
     @Override
     public List<Supplier> getAll() {
-        return null;
+        List<Supplier> supplierList = null;
+        String sql = "SELECT name, description FROM supplier;";
+        try (Connection connection = dataSource.getConnection()) {
+            PreparedStatement pst = connection.prepareStatement(sql);
+            ResultSet resultSet = pst.executeQuery();
+            supplierList = new ArrayList<>();
+            Supplier supplier;
+            while (resultSet.next()) {
+                supplier = new Supplier(
+                        resultSet.getString("name"),
+                        resultSet.getString("description")
+                );
+                supplier.setId(resultSet.getInt("id"));
+                supplierList.add(supplier);
+            }
+        } catch (SQLException sqle) {
+            throw new RuntimeException(getClass().getSimpleName() + " " + sql + ": " + sqle.getSQLState());
+        }
+        return supplierList;
     }
-
 }
