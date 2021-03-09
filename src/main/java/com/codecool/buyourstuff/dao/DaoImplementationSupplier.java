@@ -39,8 +39,8 @@ public class DaoImplementationSupplier {
                 SupplierDao supplierDao = new SupplierDaoJDBC(dataSource);
                 ProductDao productDao = new ProductDaoJDBC(dataSource, productCategoryDao, supplierDao);
                 CartDao cartDao = new CartDaoJDBC(dataSource);
-                LineItemDao lineItemDao = new LineItemDaoJDBC(dataSource);
-                UserDao userDao = new UserDaoJDBC(dataSource);
+                LineItemDao lineItemDao = new LineItemDaoJDBC(dataSource, productDao);
+                UserDao userDao = new UserDaoJDBC(dataSource, cartDao);
 
                 return new DaoImplementationSupplier(
                         productDao,
