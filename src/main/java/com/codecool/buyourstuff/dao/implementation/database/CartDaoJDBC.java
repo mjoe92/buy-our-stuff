@@ -4,10 +4,7 @@ import com.codecool.buyourstuff.dao.CartDao;
 import com.codecool.buyourstuff.model.Cart;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,15 +31,19 @@ public class CartDaoJDBC implements CartDao {
     }
 
     @Override
-    public void add(Cart cart) {
+    public Cart add(Cart cart) {
         String sql = "INSERT INTO cart VALUES (?);";
         try (Connection connection = dataSource.getConnection()) {
-            PreparedStatement pst = connection.prepareStatement(sql);
+            PreparedStatement pst = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             pst.setString(1, cart.getCurrency().getCurrencyCode());
             pst.executeUpdate();
+            ResultSet resultSet = pst.getGeneratedKeys();
+            resultSet.next();
+            cart.setId(resultSet.getInt(1));
         } catch (SQLException sqle) {
             throw new RuntimeException(getClass().getSimpleName() + " " + sql + ": " + sqle.getSQLState());
         }
+        return cart;
     }
 
     @Override
