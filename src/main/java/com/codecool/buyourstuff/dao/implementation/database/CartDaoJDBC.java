@@ -32,7 +32,7 @@ public class CartDaoJDBC implements CartDao {
 
     @Override
     public Cart add(Cart cart) {
-        String sql = "INSERT INTO cart VALUES (?);";
+        String sql = "INSERT INTO cart (currency) VALUES (?);";
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement pst = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             pst.setString(1, cart.getCurrency().getCurrencyCode());
@@ -78,7 +78,7 @@ public class CartDaoJDBC implements CartDao {
 
     @Override
     public void clear() {
-        String sql = "DELETE * FROM cart;";
+        String sql = "DELETE FROM cart;";
         try (Connection connection = dataSource.getConnection()) {
             connection.prepareStatement(sql).executeUpdate();
         }  catch (SQLException sqle) {
