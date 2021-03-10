@@ -17,9 +17,10 @@ public class ProductCategoryDaoMem implements ProductCategoryDao {
     }
 
     @Override
-    public void add(ProductCategory category) {
+    public ProductCategory add(ProductCategory category) {
         category.setId(data.size() + 1);
         data.add(category);
+        return category;
     }
 
     @Override
@@ -27,6 +28,15 @@ public class ProductCategoryDaoMem implements ProductCategoryDao {
         return data
                 .stream()
                 .filter(t -> t.getId() == id)
+                .findFirst()
+                .orElseThrow(() -> new DataNotFoundException("No such category"));
+    }
+
+    @Override
+    public ProductCategory findByName(String name) {
+        return data
+                .stream()
+                .filter(t -> t.getName() == name)
                 .findFirst()
                 .orElseThrow(() -> new DataNotFoundException("No such category"));
     }

@@ -6,8 +6,9 @@ import java.util.List;
 
 public interface ProductCategoryDao {
     void createTable();
-    void add(ProductCategory category);
+    ProductCategory add(ProductCategory category);
     ProductCategory find(int id);
+    ProductCategory findByName(String Name);
     void remove(int id);
     void clear();
     List<ProductCategory> getAll();

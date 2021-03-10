@@ -4,10 +4,7 @@ import com.codecool.buyourstuff.dao.ProductCategoryDao;
 import com.codecool.buyourstuff.model.ProductCategory;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,17 +33,25 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
     }
 
     @Override
-    public void add(ProductCategory category) {
-        String sql = "INSERT INTO product_category (name, description, department) VALUES (?,?,?);";
-        try (Connection connection = dataSource.getConnection()) {
-            PreparedStatement pst = connection.prepareStatement(sql);
-            pst.setString(1, category.getName());
-            pst.setString(2, category.getDescription());
-            pst.setString(3, category.getDescription());
-            pst.executeUpdate();
-        } catch (SQLException sqle) {
-            throw new RuntimeException(getClass().getSimpleName() + " " + sql + ": " + sqle.getSQLState());
+    public ProductCategory add(ProductCategory category) {
+        ProductCategory categoryToAdd = findByName(category.getName());
+        if (categoryToAdd == null) {
+            String sql = "INSERT INTO product_category (name, description, department) VALUES (?,?,?);";
+            try (Connection connection = dataSource.getConnection()) {
+                PreparedStatement pst = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                pst.setString(1, category.getName());
+                pst.setString(2, category.getDescription());
+                pst.setString(3, category.getDepartment());
+                pst.executeUpdate();
+                ResultSet resultSet = pst.getGeneratedKeys();
+                resultSet.next();
+                categoryToAdd = category;
+                categoryToAdd.setId(resultSet.getInt(1));
+            } catch (SQLException sqle) {
+                throw new RuntimeException(getClass().getSimpleName() + " " + sql + ": " + sqle.getSQLState());
+            }
         }
+        return categoryToAdd;
     }
 
     @Override
@@ -63,6 +68,27 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
                         resultSet.getString("description"),
                         resultSet.getString("department"));
                 productCategory.setId(id);
+            }
+        } catch (SQLException sqle) {
+            throw new RuntimeException(getClass().getSimpleName() + " " + sql + ": " + sqle.getSQLState());
+        }
+        return productCategory;
+    }
+
+    @Override
+    public ProductCategory findByName(String name) {
+        ProductCategory productCategory = null;
+        String sql = "SELECT id, name, description, department FROM product_category WHERE name = ?;";
+        try (Connection connection = dataSource.getConnection()) {
+            PreparedStatement pst = connection.prepareStatement(sql);
+            pst.setString(1, name);
+            ResultSet resultSet = pst.executeQuery();
+            if (resultSet.next()) {
+                productCategory = new ProductCategory(
+                        name,
+                        resultSet.getString("description"),
+                        resultSet.getString("department"));
+                productCategory.setId(resultSet.getInt("id"));
             }
         } catch (SQLException sqle) {
             throw new RuntimeException(getClass().getSimpleName() + " " + sql + ": " + sqle.getSQLState());
