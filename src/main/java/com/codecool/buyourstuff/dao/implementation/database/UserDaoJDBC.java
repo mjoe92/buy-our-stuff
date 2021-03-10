@@ -21,12 +21,12 @@ public class UserDaoJDBC implements UserDao {
         this.dataSource = dataSource;
         this.cartDao = cartDao;
         createTable();
-        addTableConstraint();
+//        addTableConstraint();
     }
 
     @Override
     public void createTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS user (" +
+        String sql = "CREATE TABLE IF NOT EXISTS stuff_user (" +
                 "id SERIAL PRIMARY KEY, " +
                 "name TEXT NOT NULL, " +
                 "password TEXT NOT NULL, " +
@@ -39,9 +39,9 @@ public class UserDaoJDBC implements UserDao {
     }
 
     public void addTableConstraint() {
-        String sqlDrop = "ALTER TABLE ONLY user" +
+        String sqlDrop = "ALTER TABLE ONLY stuff_user" +
                 "DROP CONSTRAINT IF EXISTS user_cart;";
-        String sqlAdd = "ALTER TABLE user" +
+        String sqlAdd = "ALTER TABLE stuff_user" +
                 "ADD CONSTRAINT user_cart FOREIGN KEY (cart_id) REFERENCES cart(id);";
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement pst = connection.prepareStatement(sqlDrop);
@@ -55,7 +55,7 @@ public class UserDaoJDBC implements UserDao {
 
     @Override
     public void add(User user) {
-        String sql = "INSERT INTO user (name, password, cart_id) VALUES (?,?,?);";
+        String sql = "INSERT INTO stuff_user (name, password, cart_id) VALUES (?,?,?);";
         try (Connection connection = dataSource.getConnection()) {
             Cart cart = new Cart();
             cart = cartDao.add(cart);
@@ -66,14 +66,14 @@ public class UserDaoJDBC implements UserDao {
             pst.setInt(3, cart.getId());
             pst.executeUpdate();
         } catch (SQLException sqle) {
-            throw new RuntimeException(getClass().getSimpleName() + " Product constraints: " + sqle.getSQLState());
+            throw new RuntimeException(getClass().getSimpleName() + " " + sql + ": " + sqle.getSQLState());
         }
     }
 
     @Override
     public User find(String userName, String password) {
         User user = null;
-        String sql = "SELECT id, name, cart_id FROM user WHERE name = ? AND password = ?;";
+        String sql = "SELECT id, name, cart_id FROM stuff_user WHERE name = ? AND password = ?;";
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement pst = connection.prepareStatement(sql);
             pst.setString(1, userName);
@@ -84,24 +84,24 @@ public class UserDaoJDBC implements UserDao {
                 user.setId(resultSet.getInt("id"));
             }
         } catch (SQLException sqle) {
-            throw new RuntimeException(getClass().getSimpleName() + " Product constraints: " + sqle.getSQLState());
+            throw new RuntimeException(getClass().getSimpleName() + " " + sql + ": " + sqle.getSQLState());
         }
         return user;
     }
 
     @Override
     public void clear() {
-        String sql = "DELETE * FROM user;";
+        String sql = "DELETE FROM stuff_user;";
         try (Connection connection = dataSource.getConnection()) {
             connection.prepareStatement(sql).executeUpdate();
         } catch (SQLException sqle) {
-            throw new RuntimeException(getClass().getSimpleName() + " Product constraints: " + sqle.getSQLState());
+            throw new RuntimeException(getClass().getSimpleName() + " " + sql + ": " + sqle.getSQLState());
         }
     }
 
     @Override
     public boolean isNameAvailable(String username) {
-        String sql = "SELECT id FROM user WHERE name = ?;";
+        String sql = "SELECT id FROM stuff_user WHERE name = ?;";
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement pst = connection.prepareStatement(sql);
             pst.setString(1, username);
@@ -110,7 +110,7 @@ public class UserDaoJDBC implements UserDao {
                 return true;
             }
         } catch (SQLException sqle) {
-            throw new RuntimeException(getClass().getSimpleName() + " Product constraints: " + sqle.getSQLState());
+            throw new RuntimeException(getClass().getSimpleName() + " " + sql + ": " + sqle.getSQLState());
         }
         return false;
     }
