@@ -4,7 +4,23 @@ import com.codecool.buyourstuff.model.*;
 import com.codecool.buyourstuff.util.BaseData;
 
 public class DataManager {
-    private static final DaoType DAO_TYPE = DaoType.DATABASE;
+
+//    private static final DaoType DAO_TYPE = DaoType.DATABASE;
+    private static final DaoType DAO_TYPE;
+
+    static {
+        switch (System.getenv("DAO_TYPE").toLowerCase()) {
+            case "file" :
+                DAO_TYPE = DaoType.FILE;
+                break;
+            case "database" :
+                DAO_TYPE = DaoType.DATABASE;
+                break;
+            default :
+                DAO_TYPE = DaoType.MEMORY;
+        }
+    }
+
 
     private static final DaoImplementationSupplier daoImplementationSupplier = DaoImplementationSupplier.getInstance(DAO_TYPE);
 
