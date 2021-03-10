@@ -26,7 +26,7 @@ public class UserDaoJDBC implements UserDao {
 
     @Override
     public void createTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS stuff_user (" +
+        String sql = "CREATE TABLE IF NOT EXISTS public.stuff_user (" +
                 "id SERIAL PRIMARY KEY, " +
                 "name TEXT NOT NULL, " +
                 "password TEXT NOT NULL, " +
@@ -73,15 +73,18 @@ public class UserDaoJDBC implements UserDao {
     @Override
     public User find(String userName, String password) {
         User user = null;
-        String sql = "SELECT id, name, cart_id FROM stuff_user WHERE name = ? AND password = ?;";
+        String sql = "SELECT id, name, password, cart_id FROM stuff_user WHERE name = ?;";
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement pst = connection.prepareStatement(sql);
             pst.setString(1, userName);
-            pst.setString(2, BCrypt.hashpw(password, BCrypt.gensalt()));
             ResultSet resultSet = pst.executeQuery();
             if (resultSet.next()) {
-                user = new User(userName, password);
-                user.setId(resultSet.getInt("id"));
+                boolean isValidPassword = BCrypt.checkpw(password, resultSet.getString("password"));
+                if (isValidPassword) {
+                    user = new User(userName, password);
+                    user.setId(resultSet.getInt("id"));
+                    user.setCartId(resultSet.getInt("cart_id"));
+                }
             }
         } catch (SQLException sqle) {
             throw new RuntimeException(getClass().getSimpleName() + " " + sql + ": " + sqle.getSQLState());
