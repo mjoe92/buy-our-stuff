@@ -2,6 +2,7 @@ package com.codecool.buyourstuff.dao.implementation.database;
 
 import com.codecool.buyourstuff.dao.ProductCategoryDao;
 import com.codecool.buyourstuff.model.ProductCategory;
+import com.codecool.buyourstuff.model.exception.DataNotFoundException;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -69,6 +70,8 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
                         resultSet.getString("description"),
                         resultSet.getString("department"));
                 productCategory.setId(id);
+            } else {
+                throw new DataNotFoundException("No such product category!");
             }
         } catch (SQLException sqle) {
             throw new RuntimeException(getClass().getSimpleName() + " " + sql + ": " + sqle.getSQLState());
