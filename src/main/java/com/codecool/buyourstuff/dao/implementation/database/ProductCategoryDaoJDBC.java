@@ -19,14 +19,15 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
 
     @Override
     public void createTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS product_category(" +
-                "id SERIAL PRIMARY KEY, " +
-                "name TEXT NOT NULL, " +
-                "description TEXT NOT NULL, " +
-                "department TEXT NOT NULL);";
+        String sql = "CREATE SCHEMA IF NOT EXISTS public;";
         try (Connection connection = dataSource.getConnection()) {
-            PreparedStatement pst = connection.prepareStatement(sql);
-            pst.execute();
+            connection.prepareStatement(sql).execute();
+            sql = "CREATE TABLE IF NOT EXISTS public.product_category(" +
+                    "id SERIAL PRIMARY KEY, " +
+                    "name TEXT NOT NULL, " +
+                    "description TEXT NOT NULL, " +
+                    "department TEXT NOT NULL);";
+            connection.prepareStatement(sql).execute();
         } catch (SQLException sqle) {
             throw new RuntimeException(getClass().getSimpleName() + " " + sql + ": " + sqle.getSQLState());
         }

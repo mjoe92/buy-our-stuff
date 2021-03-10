@@ -32,15 +32,17 @@ public class ProductDaoJDBC implements ProductDao {
 
     @Override
     public void createTable() {
-         String sql = "CREATE TABLE IF NOT EXISTS product(" +
-                 "id SERIAL PRIMARY KEY, " +
-                 "name TEXT NOT NULL, " +
-                 "description TEXT NOT NULL, " +
-                 "default_price DECIMAL, " +
-                 "default_currency_code TEXT, " +
-                 "product_category_id INTEGER, " +
-                 "supplier_id INTEGER);";
+         String sql = "CREATE SCHEMA IF NOT EXISTS public;";
          try (Connection connection = dataSource.getConnection()) {
+             connection.prepareStatement(sql).execute();
+             sql = "CREATE TABLE IF NOT EXISTS public.product(" +
+                     "id SERIAL PRIMARY KEY, " +
+                     "name TEXT NOT NULL, " +
+                     "description TEXT NOT NULL, " +
+                     "default_price DECIMAL, " +
+                     "default_currency_code TEXT, " +
+                     "product_category_id INTEGER, " +
+                     "supplier_id INTEGER);";
              connection.prepareStatement(sql).execute();
          } catch (SQLException sqle) {
              throw new RuntimeException(getClass().getSimpleName() + " " + sql + ": " + sqle.getSQLState());
