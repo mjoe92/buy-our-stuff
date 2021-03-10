@@ -19,7 +19,7 @@ public class CartDaoJDBC implements CartDao {
 
     @Override
     public void createTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS cart(" +
+        String sql = "CREATE TABLE IF NOT EXISTS public.cart(" +
                 "id SERIAL PRIMARY KEY, " +
                 "currency TEXT NOT NULL);";
         try (Connection connection = dataSource.getConnection()) {
@@ -89,7 +89,7 @@ public class CartDaoJDBC implements CartDao {
     @Override
     public List<Cart> getAll() {
         List<Cart> cartList;
-        String sql = "SELECT currency FROM cart;";
+        String sql = "SELECT id, currency FROM cart;";
         try (Connection connection = dataSource.getConnection()) {
             ResultSet resultSet = connection.prepareStatement(sql).executeQuery();
             cartList = new ArrayList<>();
