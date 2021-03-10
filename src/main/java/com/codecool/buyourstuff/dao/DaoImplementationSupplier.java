@@ -51,6 +51,14 @@ public class DaoImplementationSupplier {
                         userDao
                 );
             case MEMORY:
+                return new DaoImplementationSupplier(
+                        new ProductDaoMem(),
+                        new ProductCategoryDaoMem(),
+                        new SupplierDaoMem(),
+                        new CartDaoMem(),
+                        new LineItemDaoMem(),
+                        new UserDaoMem()
+                );
             default:
                 return new DaoImplementationSupplier(
                     new ProductDaoMem(),
