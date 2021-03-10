@@ -28,7 +28,7 @@ public class LineItemDaoJDBC implements LineItemDao {
 
     @Override
     public void createTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS line_item(" +
+        String sql = "CREATE TABLE IF NOT EXISTS public.line_item(" +
                 "id SERIAL PRIMARY KEY, " +
                 "product_id INTEGER NOT NULL, " +
                 "cart_id INTEGER NOT NULL, " +
@@ -65,7 +65,7 @@ public class LineItemDaoJDBC implements LineItemDao {
             pst.setInt(3, lineItem.getQuantity());
             pst.executeUpdate();
         } catch (SQLException sqle) {
-            throw new RuntimeException(getClass().getSimpleName() + " Product constraints: " + sqle.getSQLState());
+            throw new RuntimeException(getClass().getSimpleName() + " " + sql + ": " + sqle.getSQLState());
         }
     }
 
@@ -77,7 +77,7 @@ public class LineItemDaoJDBC implements LineItemDao {
             pst.setInt(1, lineItem.getId());
             pst.executeUpdate();
         } catch (SQLException sqle) {
-            throw new RuntimeException(getClass().getSimpleName() + " Product constraints: " + sqle.getSQLState());
+            throw new RuntimeException(getClass().getSimpleName() + " " + sql + ": " + sqle.getSQLState());
         }
     }
 
@@ -87,7 +87,7 @@ public class LineItemDaoJDBC implements LineItemDao {
         try (Connection connection = dataSource.getConnection()) {
             connection.prepareStatement(sql).executeUpdate();
         } catch (SQLException sqle) {
-            throw new RuntimeException(getClass().getSimpleName() + " Product constraints: " + sqle.getSQLState());
+            throw new RuntimeException(getClass().getSimpleName() + " " + sql + ": " + sqle.getSQLState());
         }
     }
 
@@ -100,7 +100,7 @@ public class LineItemDaoJDBC implements LineItemDao {
             pst.setInt(2, lineItem.getId());
             pst.executeUpdate();
         } catch (SQLException sqle) {
-            throw new RuntimeException(getClass().getSimpleName() + " Product constraints: " + sqle.getSQLState());
+            throw new RuntimeException(getClass().getSimpleName() + " " + sql + ": " + sqle.getSQLState());
         }
     }
 
@@ -122,7 +122,7 @@ public class LineItemDaoJDBC implements LineItemDao {
                 lineItem.setId(id);
             }
         } catch (SQLException sqle) {
-            throw new RuntimeException(getClass().getSimpleName() + " Product constraints: " + sqle.getSQLState());
+            throw new RuntimeException(getClass().getSimpleName() + " " + sql + ": " + sqle.getSQLState());
         }
         return lineItem;
     }
@@ -130,7 +130,7 @@ public class LineItemDaoJDBC implements LineItemDao {
     @Override
     public List<LineItem> getBy(Cart cart) {
         List<LineItem> lineItemList;
-        String sql = "SELECT product_id, cart_id, quantity FROM lineItem WHERE cart_id = ?;";
+        String sql = "SELECT id, product_id, cart_id, quantity FROM line_item WHERE cart_id = ?;";
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement pst = connection.prepareStatement(sql);
             pst.setInt(1, cart.getId());
@@ -147,7 +147,7 @@ public class LineItemDaoJDBC implements LineItemDao {
                 lineItemList.add(lineItem);
             }
         } catch (SQLException sqle) {
-            throw new RuntimeException(getClass().getSimpleName() + " Product constraints: " + sqle.getSQLState());
+            throw new RuntimeException(getClass().getSimpleName() + " " + sql + ": " + sqle.getSQLState());
         }
         return lineItemList;
     }
