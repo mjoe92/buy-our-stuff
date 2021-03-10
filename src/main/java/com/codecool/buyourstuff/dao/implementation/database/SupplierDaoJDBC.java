@@ -19,7 +19,7 @@ public class SupplierDaoJDBC implements SupplierDao {
 
     @Override
     public void createTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS supplier(" +
+        String sql = "CREATE TABLE IF NOT EXISTS public.supplier(" +
                 "id SERIAL NOT NULL, " +
                 "name TEXT NOT NULL, " +
                 "description TEXT NOT NULL);";
