@@ -23,7 +23,7 @@ public class LineItemDaoJDBC implements LineItemDao {
         this.dataSource = dataSource;
         this.productDao = productDao;
         createTable();
-        addTableConstraint();
+//        addTableConstraint();
     }
 
     @Override
@@ -83,7 +83,7 @@ public class LineItemDaoJDBC implements LineItemDao {
 
     @Override
     public void clear() {
-        String sql = "DELETE * FROM line_item;";
+        String sql = "DELETE FROM line_item;";
         try (Connection connection = dataSource.getConnection()) {
             connection.prepareStatement(sql).executeUpdate();
         } catch (SQLException sqle) {
