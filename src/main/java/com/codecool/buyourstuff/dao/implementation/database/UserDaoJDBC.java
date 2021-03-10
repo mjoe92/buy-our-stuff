@@ -4,6 +4,7 @@ import com.codecool.buyourstuff.dao.CartDao;
 import com.codecool.buyourstuff.dao.UserDao;
 import com.codecool.buyourstuff.model.Cart;
 import com.codecool.buyourstuff.model.User;
+import com.codecool.buyourstuff.model.exception.DataNotFoundException;
 import org.mindrot.jbcrypt.BCrypt;
 
 import javax.sql.DataSource;
@@ -85,6 +86,8 @@ public class UserDaoJDBC implements UserDao {
                     user.setId(resultSet.getInt("id"));
                     user.setCartId(resultSet.getInt("cart_id"));
                 }
+            } else {
+                throw new DataNotFoundException("Invalid username or password!");
             }
         } catch (SQLException sqle) {
             throw new RuntimeException(getClass().getSimpleName() + " " + sql + ": " + sqle.getSQLState());
