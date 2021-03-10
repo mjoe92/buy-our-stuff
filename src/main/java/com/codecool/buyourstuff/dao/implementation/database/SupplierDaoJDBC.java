@@ -4,10 +4,7 @@ import com.codecool.buyourstuff.dao.SupplierDao;
 import com.codecool.buyourstuff.model.Supplier;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +22,7 @@ public class SupplierDaoJDBC implements SupplierDao {
         String sql = "CREATE TABLE IF NOT EXISTS supplier(" +
                 "id SERIAL NOT NULL, " +
                 "name TEXT NOT NULL, " +
-                "description NOT NULL);";
+                "description TEXT NOT NULL);";
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement pst = connection.prepareStatement(sql);
             pst.execute();
@@ -35,16 +32,24 @@ public class SupplierDaoJDBC implements SupplierDao {
     }
 
     @Override
-    public void add(Supplier supplier) {
-        String sql = "INSERT INTO supplier (name, description) VALUES (?,?);";
-        try (Connection connection = dataSource.getConnection()) {
-            PreparedStatement pst = connection.prepareStatement(sql);
-            pst.setString(1, supplier.getName());
-            pst.setString(2, supplier.getDescription());
-            pst.executeUpdate();
-        } catch (SQLException sqle) {
-            throw new RuntimeException(getClass().getSimpleName() + " " + sql + ": " + sqle.getSQLState());
+    public Supplier add(Supplier supplier) {
+        Supplier supplierToAdd = findByName(supplier.getName());
+        if (supplierToAdd == null) {
+            String sql = "INSERT INTO supplier (name, description) VALUES (?,?);";
+            try (Connection connection = dataSource.getConnection()) {
+                PreparedStatement pst = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+                pst.setString(1, supplier.getName());
+                pst.setString(2, supplier.getDescription());
+                pst.executeUpdate();
+                ResultSet resultSet = pst.getGeneratedKeys();
+                resultSet.next();
+                supplierToAdd = supplier;
+                supplierToAdd.setId(resultSet.getInt(1));
+            } catch (SQLException sqle) {
+                throw new RuntimeException(getClass().getSimpleName() + " " + sql + ": " + sqle.getSQLState());
+            }
         }
+        return supplierToAdd;
     }
 
     @Override
@@ -68,6 +73,27 @@ public class SupplierDaoJDBC implements SupplierDao {
         return supplier;
     }
 
+    @Override
+    public Supplier findByName(String name) {
+        Supplier supplier = null;
+        String sql = "SELECT id, name, description FROM supplier WHERE name = ?;";
+        try (Connection connection = dataSource.getConnection()) {
+            PreparedStatement pst = connection.prepareStatement(sql);
+            pst.setString(1, name);
+            ResultSet resultSet = pst.executeQuery();
+            if (resultSet.next()) {
+                supplier = new Supplier(
+                        name,
+                        resultSet.getString("description")
+                );
+                supplier.setId(resultSet.getInt("id"));
+            }
+        } catch (SQLException sqle) {
+            throw new RuntimeException(getClass().getSimpleName() + " " + sql + ": " + sqle.getSQLState());
+        }
+        return supplier;
+    }
+
 
     @Override
     public void remove(int id) {
@@ -83,7 +109,7 @@ public class SupplierDaoJDBC implements SupplierDao {
 
     @Override
     public void clear() {
-        String sql = "DELETE * FROM supplier;";
+        String sql = "DELETE FROM supplier;";
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement pst = connection.prepareStatement(sql);
             pst.executeUpdate();
@@ -95,7 +121,7 @@ public class SupplierDaoJDBC implements SupplierDao {
     @Override
     public List<Supplier> getAll() {
         List<Supplier> supplierList = null;
-        String sql = "SELECT name, description FROM supplier;";
+        String sql = "SELECT id, name, description FROM supplier;";
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement pst = connection.prepareStatement(sql);
             ResultSet resultSet = pst.executeQuery();

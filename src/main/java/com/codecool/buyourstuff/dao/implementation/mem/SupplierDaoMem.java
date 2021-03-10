@@ -17,9 +17,10 @@ public class SupplierDaoMem implements SupplierDao {
     }
 
     @Override
-    public void add(Supplier supplier) {
+    public Supplier add(Supplier supplier) {
         supplier.setId(data.size() + 1);
         data.add(supplier);
+        return supplier;
     }
 
     @Override
@@ -27,6 +28,15 @@ public class SupplierDaoMem implements SupplierDao {
         return data
                 .stream()
                 .filter(t -> t.getId() == id)
+                .findFirst()
+                .orElseThrow(() -> new DataNotFoundException("No such supplier"));
+    }
+
+    @Override
+    public Supplier findByName(String name) {
+        return data
+                .stream()
+                .filter(t -> t.getName() == name)
                 .findFirst()
                 .orElseThrow(() -> new DataNotFoundException("No such supplier"));
     }
