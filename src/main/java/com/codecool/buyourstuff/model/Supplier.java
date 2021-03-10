@@ -9,7 +9,7 @@ public class Supplier extends BaseModel {
 
     private static final int NAME_MINLENGTH = 3;
     private static final int NAME_MAXLENGTH = 60;
-    private static final int DESC_MINLENGTH = 20;
+    private static final int DESC_MINLENGTH = 5;
     private static final int DESC_MAXLENGTH = 10000;
     private static final String ILLEGAL_CHARS = "'\"\\()[]{}&|?!-;~$<>*%_";
 
