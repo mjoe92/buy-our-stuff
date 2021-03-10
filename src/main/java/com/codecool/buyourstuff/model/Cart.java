@@ -82,7 +82,7 @@ public class Cart extends BaseModel {
                 .findFirst();
     }
 
-    private List<LineItem> items() {
+    public List<LineItem> items() {
         return DataManager.getLineItemDao().getBy(this);
     }
 

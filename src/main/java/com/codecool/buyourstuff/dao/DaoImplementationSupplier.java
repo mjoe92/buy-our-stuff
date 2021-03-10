@@ -3,6 +3,8 @@ package com.codecool.buyourstuff.dao;
 import com.codecool.buyourstuff.dao.implementation.database.*;
 import com.codecool.buyourstuff.dao.implementation.mem.*;
 
+import javax.sql.DataSource;
+
 public class DaoImplementationSupplier {
 
     private final ProductDao productDao;
@@ -31,16 +33,32 @@ public class DaoImplementationSupplier {
         switch (daoType) {
             case FILE: //TODO: return the DAO implementations that work with files
             case DATABASE:
-                DatabaseConnectionDao databaseConnectionDao = new DatabaseConnectionDaoJDBC();
+                DatabaseDataSourceDao databaseDataSourceDao = new DatabaseDataSourceDaoJDBC();
+                DataSource dataSource = databaseDataSourceDao.createDataSource();
+                ProductCategoryDao productCategoryDao = new ProductCategoryDaoJDBC(dataSource);
+                SupplierDao supplierDao = new SupplierDaoJDBC(dataSource);
+                ProductDao productDao = new ProductDaoJDBC(dataSource, productCategoryDao, supplierDao);
+                CartDao cartDao = new CartDaoJDBC(dataSource);
+                LineItemDao lineItemDao = new LineItemDaoJDBC(dataSource, productDao);
+                UserDao userDao = new UserDaoJDBC(dataSource, cartDao);
+
                 return new DaoImplementationSupplier(
-                        new ProductDaoJDBC(databaseConnectionDao.getConnection()),
-                        new ProductCategoryDaoJDBC(databaseConnectionDao.getConnection()),
-                        new SupplierDaoJDBC(databaseConnectionDao.getConnection()),
-                        new CartDaoJDBC(databaseConnectionDao.getConnection()),
-                        new LineItemDaoJDBC(databaseConnectionDao.getConnection()),
-                        new UserDaoJDBC(databaseConnectionDao.getConnection())
+                        productDao,
+                        productCategoryDao,
+                        supplierDao,
+                        cartDao,
+                        lineItemDao,
+                        userDao
                 );
             case MEMORY:
+                return new DaoImplementationSupplier(
+                        new ProductDaoMem(),
+                        new ProductCategoryDaoMem(),
+                        new SupplierDaoMem(),
+                        new CartDaoMem(),
+                        new LineItemDaoMem(),
+                        new UserDaoMem()
+                );
             default:
                 return new DaoImplementationSupplier(
                     new ProductDaoMem(),

@@ -4,7 +4,7 @@ import com.codecool.buyourstuff.model.*;
 import com.codecool.buyourstuff.util.BaseData;
 
 public class DataManager {
-    private static final DaoType DAO_TYPE = DaoType.MEMORY;
+    private static final DaoType DAO_TYPE = DaoType.DATABASE;
 
     private static final DaoImplementationSupplier daoImplementationSupplier = DaoImplementationSupplier.getInstance(DAO_TYPE);
 
@@ -16,6 +16,7 @@ public class DataManager {
     private static final UserDao userDao = daoImplementationSupplier.getUserDao();
 
     public static void init() {
+        clear();
         initCart();
         initSuppliers();
         initProductCategories();
