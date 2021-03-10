@@ -19,9 +19,9 @@ public class DatabaseDataSourceDaoJDBC implements DatabaseDataSourceDao {
      */
 
     public DatabaseDataSourceDaoJDBC() {
-        dbName = "database";       //DB_NAME.getPd();
-        userName = "postgres";     //USER_NAME.getPd();
-        password = "asdfqwer";     //PASSWORD.getPd();
+        dbName = Security.DB_NAME.getPd();
+        userName = Security.USER_NAME.getPd();
+        password = Security.PASSWORD.getPd();
     }
 
     // Delete later if not needed
