@@ -6,6 +6,7 @@ import com.codecool.buyourstuff.dao.SupplierDao;
 import com.codecool.buyourstuff.model.Product;
 import com.codecool.buyourstuff.model.ProductCategory;
 import com.codecool.buyourstuff.model.Supplier;
+import com.codecool.buyourstuff.model.exception.DataNotFoundException;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -26,7 +27,7 @@ public class ProductDaoJDBC implements ProductDao {
         this.productCategoryDao = productCategoryDao;
         this.supplierDao = supplierDao;
         createTable();
-        addTableConstraint();
+//        addTableConstraint();
     }
 
     @Override
@@ -71,6 +72,10 @@ public class ProductDaoJDBC implements ProductDao {
 
     @Override
     public void add(Product product) {
+        if (product.getProductCategory().getId() == 0) {
+            ProductCategory categoryAddedToDatabase = productCategoryDao.add(product.getProductCategory());
+            product.setProductCategory(categoryAddedToDatabase);
+        }
         String sql = "INSERT INTO product (name, description, default_price, default_currency_code, " +
                 "product_category_id, supplier_id) VALUES (?,?,?,?,?,?);";
         try (Connection connection = dataSource.getConnection()) {
@@ -154,7 +159,7 @@ public class ProductDaoJDBC implements ProductDao {
 
     @Override
     public void clear() {
-        String sql = "DELETE * FROM product;";
+        String sql = "DELETE FROM product;";
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement pst = connection.prepareStatement(sql);
             pst.executeUpdate();
@@ -215,6 +220,8 @@ public class ProductDaoJDBC implements ProductDao {
             }
         } catch (SQLException sqle) {
             throw new RuntimeException(getClass().getSimpleName() + " " + sql + ": " + sqle.getSQLState());
+        } catch (NullPointerException npe) {
+            throw new DataNotFoundException(npe.getMessage());
         }
         return resultList;
     }
