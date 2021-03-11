@@ -1,6 +1,7 @@
 package com.codecool.buyourstuff.dao.implementation.file;
 
 import com.codecool.buyourstuff.dao.ProductDao;
+import com.codecool.buyourstuff.dao.implementation.file.serializer.Deserializer;
 import com.codecool.buyourstuff.dao.implementation.file.serializer.Serializer;
 import com.codecool.buyourstuff.model.Product;
 import com.codecool.buyourstuff.model.ProductCategory;
@@ -16,12 +17,16 @@ import java.util.stream.Collectors;
 public class ProductDaoFile implements ProductDao {
 
     private List<Product> productsMemo = new ArrayList<>();
+    private int idCounter;
 
     private final String url = "src/main/resources/product.json";
-    private final Serializer<Product> serializer = new Serializer(url);
+    private final Serializer<Product> serializer = new Serializer<Product>(url);
+    private final Deserializer<Product> deserializer = new Deserializer<Product>(url, Product.class);
 
     public ProductDaoFile() {
         createTable();
+        loadFileDataToMemory();
+        setIdCounter();
     }
 
     @Override
@@ -34,15 +39,28 @@ public class ProductDaoFile implements ProductDao {
         }
     }
 
+    private void loadFileDataToMemory() {
+        productsMemo.clear();
+        productsMemo = deserializer.deserializeAll();
+    }
+
+    private void setIdCounter() {
+        if (productsMemo.size() == 0) {
+            idCounter = 1;
+        } else {
+            idCounter = productsMemo.get(productsMemo.size() - 1).getId() + 1;
+        }
+    }
     @Override
     public void add(Product product) {
-        product.setId(productsMemo.size() + 1);
+        product.setId(idCounter++);
 //        data.add(product);
         serializer.serializeOne(product);
     }
 
     @Override
     public Product find(int id) {
+        loadFileDataToMemory();
         return productsMemo
                 .stream()
                 .filter(t -> t.getId() == id)
@@ -52,21 +70,26 @@ public class ProductDaoFile implements ProductDao {
 
     @Override
     public void remove(int id) {
+        loadFileDataToMemory();
         productsMemo.remove(find(id));
+        serializer.serializeAll(productsMemo);
     }
 
     @Override
     public void clear() {
         productsMemo = new ArrayList<>();
+        serializer.serializeAll(productsMemo);
     }
 
     //@Override
     public List<Product> getAll() {
+        loadFileDataToMemory();
         return productsMemo;
     }
 
     @Override
     public List<Product> getBy(Supplier supplier) {
+        loadFileDataToMemory();
         return productsMemo
                 .stream()
                 .filter(
@@ -77,6 +100,7 @@ public class ProductDaoFile implements ProductDao {
 
     @Override
     public List<Product> getBy(ProductCategory productCategory) {
+        loadFileDataToMemory();
         return productsMemo
                 .stream()
                 .filter(
