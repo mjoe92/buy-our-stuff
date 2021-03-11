@@ -1,8 +1,8 @@
 package com.codecool.buyourstuff.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
 
@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Currency;
 
+@NoArgsConstructor
 @Getter
 @Setter
 public class Product extends BaseModel {
@@ -31,27 +32,14 @@ public class Product extends BaseModel {
         this.setProductCategory(productCategory);
     }
 
-    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-    public Product(@JsonProperty("name") String name,
-                   @JsonProperty("description") String description,
-                   @JsonProperty("defaultPrice") int defaultPrice,
-                   @JsonProperty("defaultCurrency") String defaultCurrency,
-                   ProductCategory productCategory,
-                   Supplier supplier) {
-        this.name = name;
-        this.description = description;
-        this.defaultPrice = BigDecimal.valueOf(defaultPrice);
-        this.defaultCurrency = Currency.getInstance(defaultCurrency);
-        this.productCategory = productCategory;
-        this.supplier = supplier;
-    }
-
     public BigDecimal getDefaultPrice(int decimals) {
         return defaultPrice.setScale(decimals, RoundingMode.HALF_DOWN);
     }
+    @JsonIgnore
     public String getPrice() {
         return getDefaultPrice(2) + " " + defaultCurrency.toString();
     }
+    @JsonIgnore
     public void setPrice(BigDecimal price, String currency) {
         this.defaultPrice = price;
         this.defaultCurrency = Currency.getInstance(currency);

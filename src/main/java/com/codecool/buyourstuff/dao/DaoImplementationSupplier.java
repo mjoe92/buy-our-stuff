@@ -34,12 +34,12 @@ public class DaoImplementationSupplier {
         switch (daoType) {
             case FILE:
                 return new DaoImplementationSupplier(
-                        new ProductDaoFile(),
-                        new ProductCategoryDaoFile(),
-                        new SupplierDaoFile(),
-                        new CartDaoFile(),
-                        new LineItemDaoFile(),
-                        new UserDaoFile()
+                    new ProductDaoFile(),
+                    new ProductCategoryDaoFile(),
+                    new SupplierDaoFile(),
+                    new CartDaoFile(),
+                    new LineItemDaoFile(),
+                    new UserDaoFile()
                 );
             case DATABASE:
                 DatabaseDataSourceDao databaseDataSourceDao = new DatabaseDataSourceDaoJDBC();

@@ -16,12 +16,9 @@ public class LineItem extends BaseModel {
     private int quantity;
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-    public LineItem(Product product,
-                    @JsonProperty("cartId") int cartId,
-                    @JsonProperty("quantity") int quantity) {
+    public LineItem(@JsonProperty("product") Product product, @JsonProperty("cartId") int cartId) {
         this.product = product;
         this.cartId = cartId;
-        this.quantity = quantity;
     }
 
     @Override

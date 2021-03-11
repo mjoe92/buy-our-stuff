@@ -23,8 +23,7 @@ public class User extends BaseModel {
     private int cartId;
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-    public User(@NonNull @JsonProperty("name") String name,
-                @NonNull @JsonProperty("password") String password) {
+    public User(@NonNull @JsonProperty("name") String name, @NonNull @JsonProperty("password") String password) {
         if (!isCreationValid(name)) {
             throw new IllegalArgumentException("Invalid username");
         }

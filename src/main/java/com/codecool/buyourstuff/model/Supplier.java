@@ -21,8 +21,7 @@ public class Supplier extends BaseModel {
     private final String description;
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-    public Supplier(@NonNull @JsonProperty("name") String name,
-                    @NonNull @JsonProperty("description") String description) {
+    public Supplier(@NonNull @JsonProperty("name") String name, @NonNull @JsonProperty("description") String description) {
         if (containsAny(name, ILLEGAL_CHARS)) {
             throw new IllegalArgumentException("Invalid username");
         }
