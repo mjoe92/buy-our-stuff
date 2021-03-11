@@ -1,5 +1,7 @@
 package com.codecool.buyourstuff.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -20,7 +22,9 @@ public class User extends BaseModel {
     private final String password;
     private int cartId;
 
-    public User(@NonNull String name, @NonNull String password) {
+    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+    public User(@NonNull @JsonProperty("name") String name,
+                @NonNull @JsonProperty("password") String password) {
         if (!isCreationValid(name)) {
             throw new IllegalArgumentException("Invalid username");
         }

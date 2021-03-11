@@ -2,6 +2,8 @@ package com.codecool.buyourstuff.model;
 
 import com.codecool.buyourstuff.dao.DataManager;
 import com.codecool.buyourstuff.dao.LineItemDao;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 import java.util.*;
@@ -13,7 +15,8 @@ public class Cart extends BaseModel {
 
     private final Currency currency;
 
-    public Cart(String currencyString) {
+    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+    public Cart(@JsonProperty("currency") String currencyString) {
         this.currency = Currency.getInstance(currencyString);
     }
 

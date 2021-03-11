@@ -1,5 +1,7 @@
 package com.codecool.buyourstuff.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
@@ -16,6 +18,15 @@ public class ProductCategory extends BaseModel {
     private String description;
     @NonNull
     private String department;
+
+    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+    public ProductCategory(@JsonProperty("name") String name,
+                           @JsonProperty("description") String description,
+                           @JsonProperty("department") String department) {
+        this.name = name;
+        this.description = description;
+        this.department = department;
+    }
 
     @Override
     public String toString() {
