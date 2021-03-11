@@ -83,6 +83,6 @@ public class CartDaoFile implements CartDao {
     //@Override
     public List<Cart> getAll() {
         loadFileDataToMemory();
-        return cartsMemo;
+        return new ArrayList<>(cartsMemo);
     }
 }

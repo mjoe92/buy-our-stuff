@@ -93,7 +93,7 @@ public class SupplierDaoFile implements SupplierDao {
     @Override
     public List<Supplier> getAll() {
         loadFileDataToMemory();
-        return suppliersMemo;
+        return new ArrayList<>(suppliersMemo);
     }
 
 }

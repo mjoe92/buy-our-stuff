@@ -84,7 +84,7 @@ public class ProductDaoFile implements ProductDao {
     //@Override
     public List<Product> getAll() {
         loadFileDataToMemory();
-        return productsMemo;
+        return new ArrayList<>(productsMemo);
     }
 
     @Override

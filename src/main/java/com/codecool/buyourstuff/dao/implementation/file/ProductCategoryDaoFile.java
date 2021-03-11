@@ -93,6 +93,6 @@ public class ProductCategoryDaoFile implements ProductCategoryDao {
     @Override
     public List<ProductCategory> getAll() {
         loadFileDataToMemory();
-        return productCategoriesMemo;
+        return new ArrayList<>(productCategoriesMemo);
     }
 }
