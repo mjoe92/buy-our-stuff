@@ -71,7 +71,11 @@ public class ProductDaoFile implements ProductDao {
     @Override
     public void remove(int id) {
         loadFileDataToMemory();
-        productsMemo.remove(find(id));
+        productsMemo = productsMemo
+                .stream()
+                .filter(
+                        item -> item.getId() != id
+                ).collect(Collectors.toCollection(ArrayList::new));
         serializer.serializeAll(productsMemo);
     }
 

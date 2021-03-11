@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ProductCategoryDaoFile implements ProductCategoryDao {
 
@@ -80,7 +81,11 @@ public class ProductCategoryDaoFile implements ProductCategoryDao {
     @Override
     public void remove(int id) {
         loadFileDataToMemory();
-        productCategoriesMemo.remove(find(id));
+        productCategoriesMemo = productCategoriesMemo
+                .stream()
+                .filter(
+                        item -> item.getId() != id
+                ).collect(Collectors.toCollection(ArrayList::new));
         serializer.serializeAll(productCategoriesMemo);
     }
 

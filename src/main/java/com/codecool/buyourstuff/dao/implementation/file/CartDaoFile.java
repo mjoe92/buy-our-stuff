@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CartDaoFile implements CartDao {
 
@@ -70,7 +71,11 @@ public class CartDaoFile implements CartDao {
     @Override
     public void remove(int id) {
         loadFileDataToMemory();
-        cartsMemo.remove(find(id));
+        cartsMemo = cartsMemo
+                .stream()
+                .filter(
+                        item -> item.getId() != id
+                ).collect(Collectors.toCollection(ArrayList::new));
         serializer.serializeAll(cartsMemo);
     }
 
