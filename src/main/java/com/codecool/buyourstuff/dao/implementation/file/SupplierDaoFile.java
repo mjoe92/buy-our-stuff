@@ -14,6 +14,7 @@ public class SupplierDaoFile implements SupplierDao {
 
     private final String url = "src/main/resources/supplier.json";
     private final Serializer<Supplier> serializer = new Serializer(url);
+
     private List<Supplier> data = new ArrayList<>();
 
     public SupplierDaoFile() {
@@ -33,7 +34,7 @@ public class SupplierDaoFile implements SupplierDao {
     @Override
     public Supplier add(Supplier supplier) {
         supplier.setId(data.size() + 1);
-        data.add(supplier);
+//        data.add(supplier);
         serializer.serializeOne(supplier);
         return supplier;
     }
