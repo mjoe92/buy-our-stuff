@@ -43,6 +43,6 @@ public class BaseData {
     }
 
     public static List<User> defaultUsers() {
-        return new ArrayList<>(List.of(new User("Barna", "123456")));
+        return new ArrayList<>(List.of(new User("Peter", "123456")));
     }
 }
