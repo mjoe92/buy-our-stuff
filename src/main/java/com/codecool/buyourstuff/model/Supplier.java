@@ -36,6 +36,7 @@ public class Supplier extends BaseModel {
         this.description = description;
     }
 
+
     @Override
     public String toString() {
         return String.format("%1$s={" +

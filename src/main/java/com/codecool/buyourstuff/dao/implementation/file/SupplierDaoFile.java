@@ -95,5 +95,4 @@ public class SupplierDaoFile implements SupplierDao {
         loadFileDataToMemory();
         return suppliersMemo;
     }
-
 }

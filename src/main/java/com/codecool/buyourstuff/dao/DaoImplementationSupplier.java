@@ -40,7 +40,7 @@ public class DaoImplementationSupplier {
                     new CartDaoFile(),
                     new LineItemDaoFile(),
                     new UserDaoFile()
-            );
+                );
             case DATABASE:
                 DatabaseDataSourceDao databaseDataSourceDao = new DatabaseDataSourceDaoJDBC();
                 DataSource dataSource = databaseDataSourceDao.createDataSource();
