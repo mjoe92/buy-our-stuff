@@ -1,6 +1,7 @@
 package com.codecool.buyourstuff.dao.implementation.file;
 
 import com.codecool.buyourstuff.dao.CartDao;
+import com.codecool.buyourstuff.dao.implementation.file.serializer.Deserializer;
 import com.codecool.buyourstuff.dao.implementation.file.serializer.Serializer;
 import com.codecool.buyourstuff.model.Cart;
 import com.codecool.buyourstuff.model.exception.DataNotFoundException;
@@ -13,12 +14,16 @@ import java.util.List;
 public class CartDaoFile implements CartDao {
 
     private List<Cart> cartsMemo = new ArrayList<>();
+    private int idCounter;
 
     private final String url = "src/main/resources/cart.json";
-    private final Serializer<Cart> serializer = new Serializer(url);
+    private final Serializer<Cart> serializer = new Serializer<Cart>(url);
+    private final Deserializer<Cart> deserializer = new Deserializer<Cart>(url, Cart.class);
 
     public CartDaoFile() {
         createTable();
+        loadFileDataToMemory();
+        setIdCounter();
     }
 
     @Override
@@ -31,9 +36,22 @@ public class CartDaoFile implements CartDao {
         }
     }
 
+    private void loadFileDataToMemory() {
+        cartsMemo.clear();
+        cartsMemo = deserializer.deserializeAll();
+    }
+
+    private void setIdCounter() {
+        if (cartsMemo.size() == 0) {
+            idCounter = 1;
+        } else {
+            idCounter = cartsMemo.get(cartsMemo.size() - 1).getId() + 1;
+        }
+    }
+
     @Override
     public Cart add(Cart cart) {
-        cart.setId(cartsMemo.size() + 1);
+        cart.setId(idCounter++);
 //        data.add(cart);
         serializer.serializeOne(cart);
         return cart;
@@ -41,6 +59,7 @@ public class CartDaoFile implements CartDao {
 
     @Override
     public Cart find(int id) {
+        loadFileDataToMemory();
         return cartsMemo
                 .stream()
                 .filter(t -> t.getId() == id)
@@ -50,16 +69,20 @@ public class CartDaoFile implements CartDao {
 
     @Override
     public void remove(int id) {
+        loadFileDataToMemory();
         cartsMemo.remove(find(id));
+        serializer.serializeAll(cartsMemo);
     }
 
     @Override
     public void clear() {
         cartsMemo = new ArrayList<>();
+        serializer.serializeAll(cartsMemo);
     }
 
     //@Override
     public List<Cart> getAll() {
+        loadFileDataToMemory();
         return cartsMemo;
     }
 }
