@@ -1,6 +1,7 @@
 package com.codecool.buyourstuff.dao.implementation.file;
 
 import com.codecool.buyourstuff.dao.LineItemDao;
+import com.codecool.buyourstuff.dao.implementation.file.serializer.Deserializer;
 import com.codecool.buyourstuff.dao.implementation.file.serializer.Serializer;
 import com.codecool.buyourstuff.model.Cart;
 import com.codecool.buyourstuff.model.LineItem;
@@ -15,12 +16,16 @@ import java.util.stream.Collectors;
 public class LineItemDaoFile implements LineItemDao {
 
     private List<LineItem> lineItemsMemo = new ArrayList<>();
+    private int idCounter;
 
     private final String url = "src/main/resources/line_item.json";
     private final Serializer<LineItem> serializer = new Serializer(url);
+    private final Deserializer<LineItem> deserializer = new Deserializer(url, LineItem.class);
 
     public LineItemDaoFile() {
         createTable();
+        loadFileDataToMemory();
+        setIdCounter();
     }
 
     @Override
@@ -33,9 +38,22 @@ public class LineItemDaoFile implements LineItemDao {
         }
     }
 
+    private void loadFileDataToMemory() {
+        lineItemsMemo.clear();
+        lineItemsMemo = deserializer.deserializeAll();
+    }
+
+    private void setIdCounter() {
+        if (lineItemsMemo.size() == 0) {
+            idCounter = 1;
+        } else {
+            idCounter = lineItemsMemo.get(lineItemsMemo.size() - 1).getId() + 1;
+        }
+    }
+
     @Override
     public void add(LineItem lineItem) {
-
+        lineItem.setId(idCounter++);
 //        data.add(lineItem);
         serializer.serializeOne(lineItem);
 
@@ -43,16 +61,20 @@ public class LineItemDaoFile implements LineItemDao {
 
     @Override
     public void remove(LineItem lineItem) {
+        loadFileDataToMemory();
         lineItemsMemo.remove(lineItem);
+        serializer.serializeAll(lineItemsMemo);
     }
 
     @Override
     public void clear() {
         lineItemsMemo = new ArrayList<>();
+        serializer.serializeAll(lineItemsMemo);
     }
 
     @Override
     public void update(LineItem lineItem, int quantity) {
+        loadFileDataToMemory();
         lineItemsMemo
                 .stream()
                 .filter(
@@ -62,10 +84,12 @@ public class LineItemDaoFile implements LineItemDao {
                 .ifPresent(
                         item -> item.setQuantity(quantity)
                 );
+        serializer.serializeAll(lineItemsMemo);
     }
 
     @Override
     public LineItem find(int id) {
+        loadFileDataToMemory();
         return lineItemsMemo
                 .stream()
                 .filter(item -> item.getId() == id)
@@ -75,6 +99,7 @@ public class LineItemDaoFile implements LineItemDao {
 
     @Override
     public List<LineItem> getBy(Cart cart) {
+        loadFileDataToMemory();
         return lineItemsMemo
                 .stream()
                 .filter(
