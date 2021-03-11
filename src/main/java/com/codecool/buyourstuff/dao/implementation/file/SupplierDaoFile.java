@@ -79,12 +79,15 @@ public class SupplierDaoFile implements SupplierDao {
 
     @Override
     public void remove(int id) {
+        loadFileDataToMemory();
         suppliersMemo.remove(find(id));
+        serializer.serializeAll(suppliersMemo);
     }
 
     @Override
     public void clear() {
         suppliersMemo = new ArrayList<>();
+        serializer.serializeAll(suppliersMemo);
     }
 
     @Override
