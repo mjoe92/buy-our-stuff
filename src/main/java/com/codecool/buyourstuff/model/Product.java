@@ -1,5 +1,7 @@
 package com.codecool.buyourstuff.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -27,6 +29,21 @@ public class Product extends BaseModel {
         this.setPrice(defaultPrice, currencyString);
         this.setSupplier(supplier);
         this.setProductCategory(productCategory);
+    }
+
+    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+    public Product(@JsonProperty("name") String name,
+                   @JsonProperty("description") String description,
+                   @JsonProperty("defaultPrice") int defaultPrice,
+                   @JsonProperty("defaultCurrency") String defaultCurrency,
+                   ProductCategory productCategory,
+                   Supplier supplier) {
+        this.name = name;
+        this.description = description;
+        this.defaultPrice = BigDecimal.valueOf(defaultPrice);
+        this.defaultCurrency = Currency.getInstance(defaultCurrency);
+        this.productCategory = productCategory;
+        this.supplier = supplier;
     }
 
     public BigDecimal getDefaultPrice(int decimals) {
