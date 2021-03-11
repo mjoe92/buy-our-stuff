@@ -1,6 +1,7 @@
 package com.codecool.buyourstuff.dao.implementation.file;
 
 import com.codecool.buyourstuff.dao.SupplierDao;
+import com.codecool.buyourstuff.dao.implementation.file.serializer.Deserializer;
 import com.codecool.buyourstuff.dao.implementation.file.serializer.Serializer;
 import com.codecool.buyourstuff.model.Supplier;
 import com.codecool.buyourstuff.model.exception.DataNotFoundException;
@@ -12,13 +13,17 @@ import java.util.List;
 
 public class SupplierDaoFile implements SupplierDao {
 
-    private final String url = "src/main/resources/supplier.json";
-    private final Serializer<Supplier> serializer = new Serializer(url);
+    private List<Supplier> suppliersMemo = new ArrayList<>();
+    private int idCounter;
 
-    private List<Supplier> data = new ArrayList<>();
+    private final String url = "src/main/resources/supplier.json";
+    private final Serializer<Supplier> serializer = new Serializer<Supplier>(url);
+    private final Deserializer<Supplier> deserializer = new Deserializer<Supplier>(url, Supplier.class);
 
     public SupplierDaoFile() {
         createTable();
+        loadFileDataToMemory();
+        setIdCounter();
     }
 
     @Override
@@ -31,9 +36,22 @@ public class SupplierDaoFile implements SupplierDao {
         }
     }
 
+    private void loadFileDataToMemory() {
+        suppliersMemo.clear();
+        suppliersMemo = deserializer.deserializeAll();
+    }
+
+    private void setIdCounter() {
+        if (suppliersMemo.size() == 0) {
+            idCounter = 1;
+        } else {
+            idCounter = suppliersMemo.get(suppliersMemo.size() - 1).getId() + 1;
+        }
+    }
+
     @Override
     public Supplier add(Supplier supplier) {
-        supplier.setId(data.size() + 1);
+        supplier.setId(idCounter++);
 //        data.add(supplier);
         serializer.serializeOne(supplier);
         return supplier;
@@ -41,7 +59,8 @@ public class SupplierDaoFile implements SupplierDao {
 
     @Override
     public Supplier find(int id) {
-        return data
+        loadFileDataToMemory();
+        return suppliersMemo
                 .stream()
                 .filter(t -> t.getId() == id)
                 .findFirst()
@@ -50,26 +69,28 @@ public class SupplierDaoFile implements SupplierDao {
 
     @Override
     public Supplier findByName(String name) {
-        return data
+        loadFileDataToMemory();
+        return suppliersMemo
                 .stream()
-                .filter(t -> t.getName() == name)
+                .filter(t -> t.getName().equals(name))
                 .findFirst()
                 .orElseThrow(() -> new DataNotFoundException("No such supplier"));
     }
 
     @Override
     public void remove(int id) {
-        data.remove(find(id));
+        suppliersMemo.remove(find(id));
     }
 
     @Override
     public void clear() {
-        data = new ArrayList<>();
+        suppliersMemo = new ArrayList<>();
     }
 
     @Override
     public List<Supplier> getAll() {
-        return data;
+        loadFileDataToMemory();
+        return suppliersMemo;
     }
 
 }
