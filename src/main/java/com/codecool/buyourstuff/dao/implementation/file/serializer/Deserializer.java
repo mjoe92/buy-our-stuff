@@ -38,7 +38,9 @@ public class Deserializer<T> {
             reader = new BufferedReader(new FileReader(this.filename));
             String nextLine = reader.readLine();
             while (nextLine != null) {
-                JSONList.add(nextLine);
+                if (!nextLine.trim().isEmpty()) {
+                    JSONList.add(nextLine);
+                }
                 nextLine = reader.readLine();
             }
             reader.close();
