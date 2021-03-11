@@ -3,6 +3,7 @@ package com.codecool.buyourstuff.model;
 import com.codecool.buyourstuff.dao.DataManager;
 import com.codecool.buyourstuff.dao.LineItemDao;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
@@ -54,6 +55,7 @@ public class Cart extends BaseModel {
         }
     }
 
+    @JsonIgnore
     public BigDecimal getTotalPrice() {
         return items()
                 .stream()
@@ -66,6 +68,7 @@ public class Cart extends BaseModel {
                 .orElse(new BigDecimal(0));
     }
 
+    @JsonIgnore
     public BigDecimal getTotalPrice(int decimals) {
         return getTotalPrice().setScale(decimals, RoundingMode.HALF_DOWN);
     }
@@ -77,6 +80,7 @@ public class Cart extends BaseModel {
                 .sum();
     }
 
+    @JsonIgnore
     private Optional<LineItem> getItem(Product product) {
         List<LineItem> items = DataManager.getLineItemDao().getBy(this);
         return items
