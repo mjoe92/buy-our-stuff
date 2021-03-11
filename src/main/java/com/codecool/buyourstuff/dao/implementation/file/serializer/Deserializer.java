@@ -1,6 +1,5 @@
 package com.codecool.buyourstuff.dao.implementation.file.serializer;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.BufferedReader;
@@ -26,8 +25,6 @@ public class Deserializer<T> {
             for (String JSONItem : JSONList) {
                 deserializedList.add(mapper.readValue(JSONItem, this.type));
             }
-        } catch (JsonProcessingException JE) {
-            System.out.println(JE.getMessage());
         } catch (IOException ioe) {
             System.out.println(ioe.getMessage());
         }
