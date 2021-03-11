@@ -22,8 +22,7 @@ public class User extends BaseModel {
     private final String password;
     private int cartId;
 
-    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-    public User(@NonNull @JsonProperty("name") String name, @NonNull @JsonProperty("password") String password) {
+    public User(@NonNull String name, @NonNull String password) {
         if (!isCreationValid(name)) {
             throw new IllegalArgumentException("Invalid username");
         }
@@ -33,6 +32,16 @@ public class User extends BaseModel {
 
         this.name = name;
         this.password = BCrypt.hashpw(password, BCrypt.gensalt());
+    }
+
+    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+    public User(@NonNull @JsonProperty("name") String name, @NonNull @JsonProperty("password") String password, @JsonProperty("json") boolean json) {
+        this.name = name;
+        this.password = password;
+    }
+
+    public boolean isJSON() {
+        return true;
     }
 
     private boolean isCreationValid(String str) {

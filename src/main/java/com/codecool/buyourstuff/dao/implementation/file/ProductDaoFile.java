@@ -71,7 +71,11 @@ public class ProductDaoFile implements ProductDao {
     @Override
     public void remove(int id) {
         loadFileDataToMemory();
-        productsMemo.remove(find(id));
+        productsMemo = productsMemo
+                .stream()
+                .filter(
+                        item -> item.getId() != id
+                ).collect(Collectors.toCollection(ArrayList::new));
         serializer.serializeAll(productsMemo);
     }
 
@@ -84,7 +88,7 @@ public class ProductDaoFile implements ProductDao {
     //@Override
     public List<Product> getAll() {
         loadFileDataToMemory();
-        return productsMemo;
+        return new ArrayList<>(productsMemo);
     }
 
     @Override
@@ -93,7 +97,7 @@ public class ProductDaoFile implements ProductDao {
         return productsMemo
                 .stream()
                 .filter(
-                        t -> t.getSupplier().equals(supplier)
+                        t -> t.getSupplier().getId() == (supplier.getId())
                 )
                 .collect(Collectors.toList());
     }
@@ -104,7 +108,7 @@ public class ProductDaoFile implements ProductDao {
         return productsMemo
                 .stream()
                 .filter(
-                        t -> t.getProductCategory().equals(productCategory)
+                        t -> t.getProductCategory().getId() == (productCategory.getId())
                 )
                 .collect(Collectors.toList());
     }

@@ -32,6 +32,7 @@ public class Product extends BaseModel {
         this.setProductCategory(productCategory);
     }
 
+    @JsonIgnore
     public BigDecimal getDefaultPrice(int decimals) {
         return defaultPrice.setScale(decimals, RoundingMode.HALF_DOWN);
     }

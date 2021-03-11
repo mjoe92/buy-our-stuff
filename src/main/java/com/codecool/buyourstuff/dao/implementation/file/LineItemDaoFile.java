@@ -62,7 +62,11 @@ public class LineItemDaoFile implements LineItemDao {
     @Override
     public void remove(LineItem lineItem) {
         loadFileDataToMemory();
-        lineItemsMemo.remove(lineItem);
+        lineItemsMemo = lineItemsMemo
+                .stream()
+                .filter(
+                        item -> item.getId() != lineItem.getId()
+                ).collect(Collectors.toCollection(ArrayList::new));
         serializer.serializeAll(lineItemsMemo);
     }
 
