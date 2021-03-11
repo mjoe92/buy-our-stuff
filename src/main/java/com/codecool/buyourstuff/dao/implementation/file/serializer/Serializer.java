@@ -17,7 +17,7 @@ public class Serializer<T> {
     }
 
     public void serializeOne(T item) {
-        String JSONString = null;
+        String JSONString;
         try {
             JSONString = mapper.writeValueAsString(item);
             writeFile(JSONString, true);
