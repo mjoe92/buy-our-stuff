@@ -19,8 +19,8 @@ public class LineItemDaoFile implements LineItemDao {
     private int idCounter;
 
     private final String url = "src/main/resources/line_item.json";
-    private final Serializer<LineItem> serializer = new Serializer(url);
-    private final Deserializer<LineItem> deserializer = new Deserializer(url, LineItem.class);
+    private final Serializer<LineItem> serializer = new Serializer<LineItem>(url);
+    private final Deserializer<LineItem> deserializer = new Deserializer<LineItem>(url, LineItem.class);
 
     public LineItemDaoFile() {
         createTable();
