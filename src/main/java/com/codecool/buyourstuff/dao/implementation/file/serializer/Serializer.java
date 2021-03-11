@@ -31,8 +31,8 @@ public class Serializer<T> {
         try {
             String lineSeparator = "";
             for (T item : list) {
-                JSONString.append(mapper.writeValueAsString(item));
                 JSONString.append(lineSeparator);
+                JSONString.append(mapper.writeValueAsString(item));
                 lineSeparator = "\n";
             }
                 writeFile(JSONString.toString(), false);
