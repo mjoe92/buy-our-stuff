@@ -93,7 +93,7 @@ public class ProductDaoFile implements ProductDao {
         return productsMemo
                 .stream()
                 .filter(
-                        t -> t.getSupplier().equals(supplier)
+                        t -> t.getSupplier().getId() == (supplier.getId())
                 )
                 .collect(Collectors.toList());
     }
@@ -104,7 +104,7 @@ public class ProductDaoFile implements ProductDao {
         return productsMemo
                 .stream()
                 .filter(
-                        t -> t.getProductCategory().equals(productCategory)
+                        t -> t.getProductCategory().getId() == (productCategory.getId())
                 )
                 .collect(Collectors.toList());
     }
