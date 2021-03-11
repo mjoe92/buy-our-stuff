@@ -12,7 +12,7 @@ import java.util.List;
 
 public class CartDaoFile implements CartDao {
 
-    private List<Cart> data = new ArrayList<>();
+    private List<Cart> cartsMemo = new ArrayList<>();
 
     private final String url = "src/main/resources/cart.json";
     private final Serializer<Cart> serializer = new Serializer(url);
@@ -33,7 +33,7 @@ public class CartDaoFile implements CartDao {
 
     @Override
     public Cart add(Cart cart) {
-        cart.setId(data.size() + 1);
+        cart.setId(cartsMemo.size() + 1);
 //        data.add(cart);
         serializer.serializeOne(cart);
         return cart;
@@ -41,7 +41,7 @@ public class CartDaoFile implements CartDao {
 
     @Override
     public Cart find(int id) {
-        return data
+        return cartsMemo
                 .stream()
                 .filter(t -> t.getId() == id)
                 .findFirst()
@@ -50,16 +50,16 @@ public class CartDaoFile implements CartDao {
 
     @Override
     public void remove(int id) {
-        data.remove(find(id));
+        cartsMemo.remove(find(id));
     }
 
     @Override
     public void clear() {
-        data = new ArrayList<>();
+        cartsMemo = new ArrayList<>();
     }
 
     //@Override
     public List<Cart> getAll() {
-        return data;
+        return cartsMemo;
     }
 }

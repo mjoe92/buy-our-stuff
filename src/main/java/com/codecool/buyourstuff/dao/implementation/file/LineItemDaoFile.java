@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 public class LineItemDaoFile implements LineItemDao {
 
-    private List<LineItem> data = new ArrayList<>();
+    private List<LineItem> lineItemsMemo = new ArrayList<>();
 
     private final String url = "src/main/resources/line_item.json";
     private final Serializer<LineItem> serializer = new Serializer(url);
@@ -43,17 +43,17 @@ public class LineItemDaoFile implements LineItemDao {
 
     @Override
     public void remove(LineItem lineItem) {
-        data.remove(lineItem);
+        lineItemsMemo.remove(lineItem);
     }
 
     @Override
     public void clear() {
-        data = new ArrayList<>();
+        lineItemsMemo = new ArrayList<>();
     }
 
     @Override
     public void update(LineItem lineItem, int quantity) {
-        data
+        lineItemsMemo
                 .stream()
                 .filter(
                         item -> item.getId() == lineItem.getId()
@@ -66,7 +66,7 @@ public class LineItemDaoFile implements LineItemDao {
 
     @Override
     public LineItem find(int id) {
-        return data
+        return lineItemsMemo
                 .stream()
                 .filter(item -> item.getId() == id)
                 .findFirst()
@@ -75,7 +75,7 @@ public class LineItemDaoFile implements LineItemDao {
 
     @Override
     public List<LineItem> getBy(Cart cart) {
-        return data
+        return lineItemsMemo
                 .stream()
                 .filter(
                         lineItem -> lineItem.getCartId() == cart.getId()

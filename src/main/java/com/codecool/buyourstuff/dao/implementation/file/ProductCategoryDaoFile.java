@@ -12,7 +12,7 @@ import java.util.List;
 
 public class ProductCategoryDaoFile implements ProductCategoryDao {
 
-    private List<ProductCategory> data = new ArrayList<>();
+    private List<ProductCategory> productCategoriesMemo = new ArrayList<>();
 
     private final String url = "src/main/resources/product_category.json";
     private final Serializer<ProductCategory> serializer = new Serializer(url);
@@ -33,7 +33,7 @@ public class ProductCategoryDaoFile implements ProductCategoryDao {
 
     @Override
     public ProductCategory add(ProductCategory category) {
-        category.setId(data.size() + 1);
+        category.setId(productCategoriesMemo.size() + 1);
 //        data.add(category);
         serializer.serializeOne(category);
         return category;
@@ -41,7 +41,7 @@ public class ProductCategoryDaoFile implements ProductCategoryDao {
 
     @Override
     public ProductCategory find(int id) {
-        return data
+        return productCategoriesMemo
                 .stream()
                 .filter(t -> t.getId() == id)
                 .findFirst()
@@ -50,7 +50,7 @@ public class ProductCategoryDaoFile implements ProductCategoryDao {
 
     @Override
     public ProductCategory findByName(String name) {
-        return data
+        return productCategoriesMemo
                 .stream()
                 .filter(t -> t.getName() == name)
                 .findFirst()
@@ -59,16 +59,16 @@ public class ProductCategoryDaoFile implements ProductCategoryDao {
 
     @Override
     public void remove(int id) {
-        data.remove(find(id));
+        productCategoriesMemo.remove(find(id));
     }
 
     @Override
     public void clear() {
-        data = new ArrayList<>();
+        productCategoriesMemo = new ArrayList<>();
     }
 
     @Override
     public List<ProductCategory> getAll() {
-        return data;
+        return productCategoriesMemo;
     }
 }

@@ -16,7 +16,7 @@ import java.util.List;
 
 public class UserDaoFile implements UserDao {
 
-    private List<User> users = new ArrayList<>();
+    private List<User> usersMemo = new ArrayList<>();
 
     private final String url = "src/main/resources/user.json";
     private final Serializer<User> serializer = new Serializer(url);
@@ -43,7 +43,7 @@ public class UserDaoFile implements UserDao {
             cartDao.add(cart);
 
             user.setCartId(cart.getId());
-            user.setId(users.size() + 1);
+            user.setId(usersMemo.size() + 1);
 //            users.add(user);
             serializer.serializeOne(user);
 
@@ -52,7 +52,7 @@ public class UserDaoFile implements UserDao {
 
     @Override
     public User find(String name, String password) {
-        return users
+        return usersMemo
                 .stream()
                 .filter(user -> user.getName().equals(name) && BCrypt.checkpw(password, user.getPassword()))
                 .findFirst()
@@ -61,12 +61,12 @@ public class UserDaoFile implements UserDao {
 
     @Override
     public void clear() {
-        users = new ArrayList<>();
+        usersMemo = new ArrayList<>();
     }
 
     @Override
     public boolean isNameAvailable(String name) {
-        return users
+        return usersMemo
                 .stream()
                 .map(User::getName)
                 .noneMatch(username -> username.equals(name));

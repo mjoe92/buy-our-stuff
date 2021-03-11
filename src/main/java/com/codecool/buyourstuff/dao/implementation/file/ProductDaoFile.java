@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 public class ProductDaoFile implements ProductDao {
 
-    private List<Product> data = new ArrayList<>();
+    private List<Product> productsMemo = new ArrayList<>();
 
     private final String url = "src/main/resources/product.json";
     private final Serializer<Product> serializer = new Serializer(url);
@@ -36,14 +36,14 @@ public class ProductDaoFile implements ProductDao {
 
     @Override
     public void add(Product product) {
-        product.setId(data.size() + 1);
+        product.setId(productsMemo.size() + 1);
 //        data.add(product);
         serializer.serializeOne(product);
     }
 
     @Override
     public Product find(int id) {
-        return data
+        return productsMemo
                 .stream()
                 .filter(t -> t.getId() == id)
                 .findFirst()
@@ -52,22 +52,22 @@ public class ProductDaoFile implements ProductDao {
 
     @Override
     public void remove(int id) {
-        data.remove(find(id));
+        productsMemo.remove(find(id));
     }
 
     @Override
     public void clear() {
-        data = new ArrayList<>();
+        productsMemo = new ArrayList<>();
     }
 
     //@Override
     public List<Product> getAll() {
-        return data;
+        return productsMemo;
     }
 
     @Override
     public List<Product> getBy(Supplier supplier) {
-        return data
+        return productsMemo
                 .stream()
                 .filter(
                         t -> t.getSupplier().equals(supplier)
@@ -77,7 +77,7 @@ public class ProductDaoFile implements ProductDao {
 
     @Override
     public List<Product> getBy(ProductCategory productCategory) {
-        return data
+        return productsMemo
                 .stream()
                 .filter(
                         t -> t.getProductCategory().equals(productCategory)
