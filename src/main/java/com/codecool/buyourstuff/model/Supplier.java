@@ -1,5 +1,7 @@
 package com.codecool.buyourstuff.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
@@ -18,7 +20,8 @@ public class Supplier extends BaseModel {
     @NonNull
     private final String description;
 
-    public Supplier(@NonNull String name, @NonNull String description) {
+    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+    public Supplier(@NonNull @JsonProperty("name") String name, @NonNull @JsonProperty("description") String description) {
         if (containsAny(name, ILLEGAL_CHARS)) {
             throw new IllegalArgumentException("Invalid username");
         }
