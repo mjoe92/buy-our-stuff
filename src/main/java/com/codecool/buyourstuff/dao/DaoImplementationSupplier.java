@@ -1,6 +1,7 @@
 package com.codecool.buyourstuff.dao;
 
 import com.codecool.buyourstuff.dao.implementation.database.*;
+import com.codecool.buyourstuff.dao.implementation.file.*;
 import com.codecool.buyourstuff.dao.implementation.mem.*;
 
 import javax.sql.DataSource;
@@ -31,7 +32,15 @@ public class DaoImplementationSupplier {
     public static DaoImplementationSupplier getInstance(DaoType daoType) {
         printImplementation(daoType);
         switch (daoType) {
-            case FILE: //TODO: return the DAO implementations that work with files
+            case FILE:
+                return new DaoImplementationSupplier(
+                    new ProductDaoFile(),
+                    new ProductCategoryDaoFile(),
+                    new SupplierDaoFile(),
+                    new CartDaoFile(),
+                    new LineItemDaoFile(),
+                    new UserDaoFile()
+            );
             case DATABASE:
                 DatabaseDataSourceDao databaseDataSourceDao = new DatabaseDataSourceDaoJDBC();
                 DataSource dataSource = databaseDataSourceDao.createDataSource();
