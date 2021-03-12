@@ -1,7 +1,5 @@
 package com.codecool.buyourstuff.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -34,15 +32,20 @@ public class User extends BaseModel {
         this.password = BCrypt.hashpw(password, BCrypt.gensalt());
     }
 
-    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-    public User(@NonNull @JsonProperty("name") String name, @NonNull @JsonProperty("password") String password, @JsonProperty("json") boolean json) {
-        this.name = name;
-        this.password = password;
+    private User() {
+        this.name = "";
+        this.password = "";
     }
 
-    public boolean isJSON() {
-        return true;
-    }
+    //    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+//    public User(@NonNull @JsonProperty("name") String name, @NonNull @JsonProperty("password") String password, @JsonProperty("json") boolean json) {
+//        this.name = name;
+//        this.password = password;
+//    }
+
+//    public boolean isJSON() {
+//        return true;
+//    }
 
     private boolean isCreationValid(String str) {
         if (str.length() < MINLENGTH) {return false;}
