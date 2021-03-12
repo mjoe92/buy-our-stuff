@@ -29,7 +29,7 @@ public class SupplierTest {
     @Test
     void descriptionLengthBelowMinimumThrows() {
         assertThrows(IllegalArgumentException.class, () ->
-                new Supplier(NAME_DEFAULT, "no description"));
+                new Supplier(NAME_DEFAULT, "no desc"));
     }
 
     @Test
