@@ -83,4 +83,17 @@ public class SupplierTest {
                 "\n" +
                 "Quisque mollis, metus eget interdum pretium, diam nisl volutpat mauris, ac consequat ligula quam vitae lacus. Nam ipsum urna, hendrerit vitae scelerisque ac, egestas eget neque. Nullam ullamcorper ac.";
     }
+
+
+
+    @Test
+    void lombokNullNameThrows() {
+        assertThrows(NullPointerException.class, () ->
+                new User(null, DESC_DEFAULT));
+    }
+    @Test
+    void lombokNullDescriptionThrows() {
+        assertThrows(NullPointerException.class, () ->
+                new User(NAME_DEFAULT, null));
+    }
 }
