@@ -22,20 +22,19 @@ public class Supplier extends BaseModel {
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
     public Supplier(@NonNull @JsonProperty("name") String name, @NonNull @JsonProperty("description") String description) {
-        if (containsAny(name, ILLEGAL_CHARS)) {
-            throw new IllegalArgumentException("Invalid username");
+        if (StringUtils.containsAny(name, ILLEGAL_CHARS)) {
+            throw new IllegalArgumentException("Invalid username - must not contain any of these characters: " + ILLEGAL_CHARS);
         }
         if (!isCreationValid(name, NAME_MINLENGTH, NAME_MAXLENGTH)) {
-            throw new IllegalArgumentException("Invalid username");
+            throw new IllegalArgumentException("Invalid username - length must be between " + NAME_MINLENGTH + "-" + NAME_MAXLENGTH);
         }
         if (!isCreationValid(description, DESC_MINLENGTH, DESC_MAXLENGTH)) {
-            throw new IllegalArgumentException("Invalid password");
+            throw new IllegalArgumentException("Invalid description - length must be between " + DESC_MINLENGTH + "-" + DESC_MAXLENGTH);
         }
 
         this.name = name;
-        this.description = description;
+        this.description = replaceIllegalChars(description);
     }
-
 
     @Override
     public String toString() {
@@ -53,37 +52,38 @@ public class Supplier extends BaseModel {
     private boolean isCreationValid(String str, int MIN, int MAX) {
         if (str.length() < MIN) {return false;}
         if (str.length() > MAX) {return false;}
-        if (containsAny(str, ILLEGAL_CHARS)) {
-            replaceIllegalChars(str);
+        if (StringUtils.containsAny(str, ILLEGAL_CHARS)) {
+            if (MIN == NAME_MINLENGTH && MAX == NAME_MAXLENGTH) { return false; }
         }
 
         return true;
     }
 
-    private static boolean containsAny(String compareMe, String to) {
-        return StringUtils.containsAny(compareMe, to);
-    }
-
-    //TODO: not actually converting
     private static String replaceIllegalChars(String str) {
-        if (containsAny(str, "!")) {
-            str.replaceAll("\\!", "ǃ");    //exclamation mark -> alveolar click (same appearance, doesn't affect graphics)
+        if (StringUtils.containsAny(str, "!")) {
+            str = str.replaceAll("!", "ǃ");    //exclamation mark -> alveolar click ǃ (same appearance, doesn't conflict)
         }
-        if (containsAny(str, ";")) {
-            str.replaceAll("\\;", ";");    //semicolon -> greek question mark (same appearance, doesn't affect graphics)
+        if (StringUtils.containsAny(str, ";")) {
+            str = str.replaceAll(";", ";");      //semicolon -> greek question mark ;
         }
-        if (containsAny(str, "?")) {
-            str.replaceAll("\\?", "？"); //question mark -> full-width (similar appearance, doesn't affect graphics)
+        if (StringUtils.containsAny(str, "?")) {
+            str = str.replaceAll("\\?", "？");   //question mark -> full-width
         }
-        if (containsAny(str, "(") || containsAny(str, "[") || containsAny(str, "{")) {
-            str.replaceAll("(\\(\\[\\{)", "⦅");
+        if (StringUtils.containsAny(str, "&")) {
+            str = str.replaceAll("&", "＆");     //ampersand -> full-width
         }
-        if (containsAny(str, ")") || containsAny(str, "]") || containsAny(str, "}")) {
-            str.replaceAll("(\\)]})", "⦆");
+
+        if (StringUtils.containsAny(str, "(") ||
+            StringUtils.containsAny(str, "[") ||
+            StringUtils.containsAny(str, "{")) {
+                str = str.replaceAll("\\(|\\[|\\{", "⦅");
         }
-        if (containsAny(str, "&")) {
-            str.replaceAll("&", "＆");
+        if (StringUtils.containsAny(str, ")") ||
+            StringUtils.containsAny(str, "]") ||
+            StringUtils.containsAny(str, "}")) {
+                str = str.replaceAll("(\\)|]|})", "⦆");
         }
+
         return str;
     }
 
