@@ -44,4 +44,17 @@ public class UserTest {
                 new User(NAME_DEFAULT,"I'm invalid"));
     }
 
+
+
+    @Test
+    void lombokNullNameThrows() {
+        assertThrows(NullPointerException.class, () ->
+                new User(null, PW_DEFAULT));
+    }
+    @Test
+    void lombokNullPasswordThrows() {
+        assertThrows(NullPointerException.class, () ->
+                new User(NAME_DEFAULT, null));
+    }
+
 }

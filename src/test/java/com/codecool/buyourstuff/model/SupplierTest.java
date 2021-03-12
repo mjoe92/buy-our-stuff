@@ -40,10 +40,12 @@ public class SupplierTest {
 
     @Test
     void descriptionContainsInvalidCharConverts() {
-        assertEquals(new Supplier("LG Electronics", "This description will contain certain character ⦅characters？⦆; these should be converted0"),
-                     new Supplier("LG Electronics", "This description will contain certain character (characters?); these should be converted!"));
+        Supplier expected = new Supplier("LG Electronics", "This description will contain certain character ⦅characters？⦆; these should be converted ＆ properly shownǃ");
+        Supplier actual = new Supplier("LG Electronics", "This description will contain certain character (characters?); these should be converted & properly shown!");
+        assertEquals(expected.getDescription().replaceAll("\\r\\n", "\n"),
+                     actual.getDescription().replaceAll("\\r\\n", "\n")
+        );
     }
-
     private static final String returnLongText() {
         return "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec facilisis dictum euismod. Sed ac augue porta, malesuada ante quis, sodales quam. Nulla facilisi. Fusce sed neque accumsan, ornare purus et, imperdiet purus. Donec sagittis risus tellus, accumsan venenatis magna pellentesque at. Mauris lacinia diam neque, viverra rhoncus sem suscipit id. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Morbi ipsum ante, pulvinar ut ullamcorper vel, tincidunt et ipsum. Morbi sed rhoncus orci.\n" +
                 "\n" +
@@ -82,5 +84,18 @@ public class SupplierTest {
                 "Nulla lacinia, augue eget molestie ultricies, sapien magna maximus libero, sit amet lacinia mi metus eget lacus. Integer vel lorem imperdiet, placerat purus sed, laoreet quam. Proin eget magna at lectus lacinia faucibus. Sed porttitor tellus vel sem sagittis, id feugiat nunc finibus. Donec tortor lorem, faucibus vel mauris sit amet, iaculis auctor odio. Integer vulputate nibh ante, id mollis dolor faucibus in. Fusce accumsan quam sit amet urna molestie fringilla. Pellentesque in facilisis magna. Etiam eget lacus faucibus arcu sollicitudin molestie. In hac habitasse platea dictumst. Quisque in metus id sem venenatis lacinia.\n" +
                 "\n" +
                 "Quisque mollis, metus eget interdum pretium, diam nisl volutpat mauris, ac consequat ligula quam vitae lacus. Nam ipsum urna, hendrerit vitae scelerisque ac, egestas eget neque. Nullam ullamcorper ac.";
+    }
+
+
+
+    @Test
+    void lombokNullNameThrows() {
+        assertThrows(NullPointerException.class, () ->
+                new User(null, DESC_DEFAULT));
+    }
+    @Test
+    void lombokNullDescriptionThrows() {
+        assertThrows(NullPointerException.class, () ->
+                new User(NAME_DEFAULT, null));
     }
 }
